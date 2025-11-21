@@ -39,5 +39,3 @@ const loadDemo = async () => {
 
 watch(() => route.params.id, loadDemo, { immediate: true })
 </script>
-
-
