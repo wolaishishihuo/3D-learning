@@ -1,0 +1,30 @@
+# <type>: <subject>
+#
+# Commit Message 规范（支持 emoji）
+#
+# 格式: <emoji> <type>(<scope>): <subject>
+#
+# Type 类型及对应 Emoji:
+# ✨ feat:     新功能(feature)
+# 🐛 fix:      修复bug
+# 📝 docs:     文档更新
+# 💄 style:    代码格式(不影响代码运行的变动)
+# ♻️  refactor: 重构(既不是新增功能,也不是修改bug的代码变动)
+# ⚡️ perf:     性能优化
+# ✅ test:     增加测试
+# 🔧 chore:    构建过程或辅助工具的变动
+# ⏪ revert:   回退
+# 📦 build:    打包
+# 👷 ci:       CI/CD相关
+#
+# 示例:
+# ✨ feat: 添加用户登录功能
+# 🐛 fix: 修复页面样式错位问题
+# 📝 docs: 更新README文档
+# ♻️  refactor: 重构用户模块代码
+#
+# 注意:
+# 1. emoji 是可选的，可以不加
+# 2. type 是必须的
+# 3. subject 简短描述，不超过50个字符
+# 4. 更详细的说明可以在正文中添加
