@@ -24,7 +24,8 @@ export default [
         navigator: 'readonly',
         requestAnimationFrame: 'readonly',
         cancelAnimationFrame: 'readonly',
-        HTMLDivElement: 'readonly'
+        HTMLDivElement: 'readonly',
+        ResizeObserver: 'readonly'
       }
     }
   },
