@@ -1,178 +1,110 @@
-# Three.js 3D 学习项目
+# 3D Learning
 
-基于 Vue 3 + TypeScript + Three.js 的 3D 可视化学习平台
+基于 Vue 3 + TypeScript + Three.js 的交互式 3D 可视化学习平台
+
+![Vue](https://img.shields.io/badge/Vue-3.5-4FC08D?logo=vue.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)
+![Three.js](https://img.shields.io/badge/Three.js-0.178-000000?logo=three.js)
+![Vite](https://img.shields.io/badge/Vite-6.4-646CFF?logo=vite)
+
+## 特性
+
+- **渐进式学习** - 从基础到高级的 Three.js 示例
+- **交互式演示** - 可视化理解 3D 概念
+- **现代技术栈** - Vue 3 Composition API + TypeScript
+- **精美暗黑主题** - 沉浸式学习体验
+- **零配置开发** - API 和组件自动导入
+
+## 快速开始
+
+```bash
+# 安装依赖
+pnpm install
+
+# 启动开发服务器
+pnpm dev
+
+# 构建生产版本
+pnpm build
+```
+
+访问 http://localhost:3000
 
 ## 技术栈
 
-- **Vue 3** - 渐进式 JavaScript 框架
-- **TypeScript** - JavaScript 的超集，提供类型安全
-- **Vite** - 下一代前端构建工具
-- **Three.js** - JavaScript 3D 库
-- **Vue Router** - Vue 官方路由管理
-- **Pinia** - Vue 官方状态管理
-- **SCSS** - CSS 预处理器
-- **ESLint** - 代码质量检查工具
-- **Prettier** - 代码格式化工具
-- **Commitlint** - Git 提交信息规范检查
-- **Husky** - Git hooks 工具
-- **unplugin-auto-import** - API 自动导入
-- **unplugin-vue-components** - 组件自动导入
+| 核心 | UI/样式 | 工具链 |
+|------|---------|--------|
+| Vue 3 | Ant Design Vue | Vite |
+| TypeScript | UnoCSS | ESLint + Prettier |
+| Three.js | SCSS | Husky + Commitlint |
+| Vue Router | GSAP | unplugin-auto-import |
+| Pinia | | unplugin-vue-components |
 
 ## 项目结构
 
 ```
-3d-learning/
-├── src/
-│   ├── components/      # 组件目录
-│   ├── composables/     # 组合式函数
-│   ├── router/          # 路由配置
-│   ├── stores/          # 状态管理
-│   ├── styles/          # 全局样式
-│   ├── views/           # 页面视图
-│   ├── App.vue          # 根组件
-│   └── main.ts          # 入口文件
-├── types/               # 类型声明文件（自动生成）
-├── public/              # 静态资源
-├── .prettierrc          # Prettier 配置
-├── eslint.config.js     # ESLint 配置
-├── tsconfig.json        # TypeScript 配置
-├── vite.config.ts       # Vite 配置
-└── package.json         # 项目配置
+src/
+├── demos/           # Three.js 示例（按分类组织）
+│   ├── config.ts    # Demo 配置中心
+│   ├── basics/      # 基础示例
+│   ├── geometry/    # 几何体
+│   ├── material/    # 材质
+│   ├── light/       # 光照
+│   └── animation/   # 动画
+├── views/           # 页面
+├── layouts/         # 布局组件
+├── blocks/          # 可复用 UI 块
+├── router/          # 路由配置
+└── stores/          # 状态管理
 ```
 
-## 开始使用
+## 添加新示例
 
-### 安装依赖
+1. 在 `src/demos/{category}/` 创建组件
+2. 在 `src/demos/config.ts` 添加配置：
 
-```bash
-pnpm install
+```ts
+{
+  id: 'my-demo',
+  name: 'My Demo',
+  description: '示例描述',
+  category: 'basics',
+  level: '入门',
+  icon: '🎯',
+  component: () => import('./basics/my-demo.vue')
+}
 ```
 
-### 开发
+## 开发规范
 
-```bash
-pnpm dev
-```
+### 自动导入
 
-项目将在 http://localhost:3000 启动
-
-### 构建
-
-```bash
-pnpm build
-```
-
-### 预览
-
-```bash
-pnpm preview
-```
-
-### 代码检查
-
-```bash
-# 运行 ESLint
-pnpm lint
-
-# 格式化代码
-pnpm format
-```
-
-### 提交规范
-
-项目集成了 Commitlint + Husky，自动验证 commit message 格式。支持带 emoji 的提交信息：
-
-#### Commit Message 格式
-
-```
-[emoji] <type>(<scope>): <subject>
-```
-
-#### 支持的类型及对应 Emoji
-
-| Type | Emoji | 说明 |
-|------|-------|------|
-| feat | ✨ | 新功能 |
-| fix | 🐛 | 修复 bug |
-| docs | 📝 | 文档更新 |
-| style | 💄 | 代码格式（不影响代码运行） |
-| refactor | ♻️ | 重构 |
-| perf | ⚡️ | 性能优化 |
-| test | ✅ | 测试相关 |
-| chore | 🔧 | 构建/工具变动 |
-| revert | ⏪ | 回退 |
-| build | 📦 | 打包 |
-| ci | 👷 | CI/CD |
-
-#### 示例
-
-```bash
-# 带 emoji（推荐）
-git commit -m "✨ feat: 添加用户登录功能"
-git commit -m "🐛 fix: 修复页面样式错位问题"
-git commit -m "📝 docs: 更新README文档"
-
-# 不带 emoji（也可以）
-git commit -m "feat: 添加用户登录功能"
-git commit -m "fix: 修复页面样式错位问题"
-```
-
-提交时会自动进行格式验证，不符合规范的提交将被拒绝。
-
-## 功能特性
-
-- ✅ Vue 3 + TypeScript 开发
-- ✅ 响应式 3D 场景渲染
-- ✅ **API 自动导入** - Vue、Vue Router、Pinia API 无需手动导入
-- ✅ **组件自动导入** - 组件无需手动注册即可使用
-- ✅ 路径别名 (@/) 支持
-- ✅ 完整的代码规范配置（ESLint + Prettier）
-- ✅ TypeScript 类型检查
-- ✅ 热模块替换 (HMR)
-- ✅ SCSS 样式预处理
-
-## 自动导入说明
-
-项目配置了 API 和组件的自动导入，无需手动编写 import 语句：
-
-### API 自动导入
-
-以下 API 可以直接使用，无需 import：
+Vue、Vue Router、Pinia API 无需手动导入：
 
 ```vue
 <script setup lang="ts">
-// ❌ 不再需要这样导入
-// import { ref, computed, watch } from 'vue'
-// import { useRouter } from 'vue-router'
-// import { defineStore } from 'pinia'
-
-// ✅ 直接使用
+// 直接使用
 const count = ref(0)
-const doubled = computed(() => count.value * 2)
 const router = useRouter()
 </script>
 ```
 
-支持的自动导入包括：
+### 提交规范
 
-- Vue 3 所有 API（ref、reactive、computed、watch 等）
-- Vue Router API（useRouter、useRoute 等）
-- Pinia API（defineStore、storeToRefs 等）
-
-### 组件自动导入
-
-放置在 `src/components/` 目录下的组件会自动注册：
-
-```vue
-<template>
-  <!-- ❌ 不再需要手动导入和注册组件 -->
-  <!-- ✅ 直接使用 -->
-  <MyComponent />
-</template>
+```bash
+git commit -m "✨ feat: 添加新功能"
+git commit -m "🐛 fix: 修复问题"
+git commit -m "📝 docs: 更新文档"
 ```
+
+支持的类型：`feat` `fix` `docs` `style` `refactor` `perf` `test` `chore`
 
 ## 学习资源
 
-- [Three.js 官方文档](https://threejs.org/docs/)
-- [Vue 3 官方文档](https://cn.vuejs.org/)
-- [TypeScript 官方文档](https://www.typescriptlang.org/)
+- [Three.js 文档](https://threejs.org/docs/)
+- [Vue 3 文档](https://cn.vuejs.org/)
+- [TypeScript 文档](https://www.typescriptlang.org/)
+
+## License
+
+MIT
