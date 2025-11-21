@@ -5,8 +5,6 @@
     :level="demoConfig?.level"
   >
     <component :is="DemoComponent" v-if="DemoComponent" />
-    <div v-else-if="loading" class="loading">Loading...</div>
-    <div v-else class="error">Demo not found</div>
   </DemoLayout>
 </template>
 
@@ -42,18 +40,4 @@ const loadDemo = async () => {
 watch(() => route.params.id, loadDemo, { immediate: true })
 </script>
 
-<style scoped lang="scss">
-.loading,
-.error {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 400px;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 18px;
-}
 
-.error {
-  color: #ff4d4f;
-}
-</style>

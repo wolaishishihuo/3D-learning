@@ -1,8 +1,20 @@
 <template>
   <div class="demo-layout">
     <!-- 背景动画 -->
-    <LightRays rays-origin="bottom-center" class="background-rays" />
-
+    <DotGrid
+      :dot-size="5"
+      :gap="15"
+      base-color="#333333"
+      active-color="#27FF64"
+      :proximity="120"
+      :speed-trigger="100"
+      :shock-radius="250"
+      :shock-strength="5"
+      :max-speed="5000"
+      :resistance="750"
+      :return-duration="1.5"
+      class="background-rays"
+    />
     <!-- 顶部导航栏 -->
     <header class="layout-header">
       <AButton type="text" class="back-btn" @click="goBack">
@@ -27,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import LightRays from '@/blocks/Backgrounds/LightRays/LightRays.vue'
+import DotGrid from '@/blocks/Backgrounds/DotGrid/DotGrid.vue'
 
 interface Props {
   title?: string
