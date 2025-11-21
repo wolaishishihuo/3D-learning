@@ -22,12 +22,12 @@ export default [
         window: 'readonly',
         document: 'readonly',
         navigator: 'readonly',
+        console: 'readonly',
         requestAnimationFrame: 'readonly',
         cancelAnimationFrame: 'readonly',
         HTMLDivElement: 'readonly',
         ResizeObserver: 'readonly',
         IntersectionObserver: 'readonly'
-        console: 'readonly'
       }
     }
   },
