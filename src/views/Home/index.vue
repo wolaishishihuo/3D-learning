@@ -29,7 +29,7 @@
         </h1>
 
         <div class="actions">
-          <button class="btn btn-secondary">View Demos</button>
+          <button class="btn btn-secondary" @click="goToDemos">View Demos</button>
         </div>
       </main>
     </div>
@@ -38,6 +38,13 @@
 
 <script setup lang="ts">
 import Beams from '@/blocks/Backgrounds/Beams/Beams.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const goToDemos = () => {
+  router.push('/demos')
+}
 </script>
 
 <style scoped lang="scss">
