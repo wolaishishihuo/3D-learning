@@ -10,7 +10,6 @@
 
 <script setup lang="ts">
 import type { Component } from 'vue'
-import DemoLayout from '@/layouts/DemoLayout/index.vue'
 import { getDemoById } from '@/demos/config'
 
 const route = useRoute()
