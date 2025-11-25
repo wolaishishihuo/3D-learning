@@ -1,0 +1,17 @@
+export interface ProjectConfig {
+  id: string // 路由路径，如 'my-project' 对应 /projects/my-project
+  name: string // 项目名称
+  description: string // 项目描述
+  icon: string // 图标 emoji
+}
+
+// 实战项目配置列表（添加后需要在 router/index.ts 中配置对应路由）
+export const projects: ProjectConfig[] = [
+  // 示例配置：
+  // {
+  //   id: 'my-project',
+  //   name: '我的实战项目',
+  //   description: '这是一个实战项目的描述',
+  //   icon: '🚀'
+  // }
+]

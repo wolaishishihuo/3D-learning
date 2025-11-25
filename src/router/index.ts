@@ -16,7 +16,18 @@ const routes: RouteRecordRaw[] = [
     path: '/demos/:category/:id',
     name: 'DemoDetail',
     component: () => import('@/views/demoDetail/index.vue')
+  },
+  {
+    path: '/projects',
+    name: 'ProjectList',
+    component: () => import('@/views/projectList/index.vue')
   }
+  // 实战项目路由示例：
+  // {
+  //   path: '/projects/my-project',
+  //   name: 'MyProject',
+  //   component: () => import('@/projects/my-project/index.vue')
+  // }
 ]
 
 const router = createRouter({

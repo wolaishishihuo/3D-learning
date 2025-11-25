@@ -29,7 +29,8 @@
         </h1>
 
         <div class="actions">
-          <button class="btn btn-secondary" @click="goToDemos">View Demos</button>
+          <button class="btn btn-primary" @click="goToDemos">学习示例</button>
+          <button class="btn btn-secondary" @click="goToProjects">实战项目</button>
         </div>
       </main>
     </div>
@@ -44,6 +45,10 @@ const router = useRouter()
 
 const goToDemos = () => {
   router.push('/demos')
+}
+
+const goToProjects = () => {
+  router.push('/projects')
 }
 </script>
 
