@@ -21,13 +21,13 @@ const routes: RouteRecordRaw[] = [
     path: '/projects',
     name: 'ProjectList',
     component: () => import('@/views/projectList/index.vue')
-  }
+  },
   // 实战项目路由示例：
-  // {
-  //   path: '/projects/my-project',
-  //   name: 'MyProject',
-  //   component: () => import('@/projects/my-project/index.vue')
-  // }
+  {
+    path: '/projects/urban-management',
+    name: 'UrbanManagement',
+    component: () => import('@/projects/urbanManagement/index.vue')
+  }
 ]
 
 const router = createRouter({

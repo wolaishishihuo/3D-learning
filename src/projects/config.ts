@@ -8,10 +8,10 @@ export interface ProjectConfig {
 // 实战项目配置列表（添加后需要在 router/index.ts 中配置对应路由）
 export const projects: ProjectConfig[] = [
   // 示例配置：
-  // {
-  //   id: 'my-project',
-  //   name: '我的实战项目',
-  //   description: '这是一个实战项目的描述',
-  //   icon: '🚀'
-  // }
+  {
+    id: 'urban-management',
+    name: '城市管理',
+    description: '城市管理',
+    icon: '🏙️'
+  }
 ]
