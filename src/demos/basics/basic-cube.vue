@@ -16,7 +16,7 @@
           <label>Color</label>
           <input v-model="cubeColor" type="color" class="color-picker" />
         </div>
-        <AButton type="primary" block @click="resetScene">Reset</AButton>
+        <AButton @click="resetScene">Reset</AButton>
       </div>
     </div>
   </div>
@@ -119,101 +119,6 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped lang="scss">
-.demo-scene {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 1.5rem;
-  max-width: 1400px;
-  margin: 0 auto;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.canvas-container {
-  width: 100%;
-  height: 600px;
-  background: #111;
-  border-radius: 8px;
-  overflow: hidden;
-
-  @media (max-width: 768px) {
-    height: 400px;
-  }
-}
-
-.control-panel {
-  height: fit-content;
-  padding: 20px;
-  background: rgba(17, 17, 17, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  backdrop-filter: blur(8px);
-
-  @media (max-width: 1024px) {
-    position: relative;
-  }
-}
-
-.control-header {
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 1rem;
-
-  h3 {
-    color: #fff;
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  p {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 14px;
-    margin: 4px 0 0;
-  }
-}
-
-.control-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.control-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-
-  label {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .value {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 12px;
-  }
-}
-
-.color-picker {
-  width: 100%;
-  height: 40px;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: transparent;
-  cursor: pointer;
-
-  &::-webkit-color-swatch-wrapper {
-    padding: 4px;
-  }
-
-  &::-webkit-color-swatch {
-    border-radius: 0.375rem;
-    border: none;
-  }
-}
+<style lang="scss">
+@use '@/demos/index.scss';
 </style>
