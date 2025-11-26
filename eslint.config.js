@@ -20,16 +20,7 @@ export default [
       },
       globals: {
         ...autoImportGlobals.globals,
-        window: 'readonly',
-        document: 'readonly',
-        navigator: 'readonly',
-        console: 'readonly',
-        requestAnimationFrame: 'readonly',
-        cancelAnimationFrame: 'readonly',
-        HTMLDivElement: 'readonly',
-        ResizeObserver: 'readonly',
-        IntersectionObserver: 'readonly',
-        performance: 'readonly'
+        ...globals.browser
       }
     }
   },
