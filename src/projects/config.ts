@@ -13,5 +13,11 @@ export const projects: ProjectConfig[] = [
     name: '城市管理',
     description: '城市管理',
     icon: '🏙️'
+  },
+  {
+    id: 'random-terrain',
+    name: '随机山脉地形',
+    description: '使用 BufferGeometry 生成随机山脉地形',
+    icon: '🏔️'
   }
 ];
