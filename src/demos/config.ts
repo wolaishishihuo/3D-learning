@@ -25,7 +25,7 @@ export const categories: Category[] = [
   { id: 'animation', name: '动画', icon: '🔄' }
 ];
 
-export const demos: DemoConfig[] = [
+const basicsDemos: DemoConfig[] = [
   {
     id: 'basic-cube',
     name: 'Basic Cube',
@@ -43,53 +43,10 @@ export const demos: DemoConfig[] = [
     level: '入门',
     icon: '🔍',
     component: () => import('./basics/data-gui.vue')
-  },
-  {
-    id: 'sphere-geometry',
-    name: 'Sphere Geometry',
-    description: '球体几何体，理解几何体参数',
-    category: 'geometry',
-    level: '入门',
-    icon: '🌐',
-    component: () => import('./geometry/sphere-geometry.vue')
-  },
-  {
-    id: 'basic-light',
-    name: 'Basic Light',
-    description: '基础光照设置，环境光和方向光',
-    category: 'light',
-    level: '入门',
-    icon: '💡',
-    component: () => import('./light/basic-light.vue')
-  },
-  {
-    id: 'rotation-animation',
-    name: 'Rotation Animation',
-    description: '旋转动画，学习基础动画循环',
-    category: 'animation',
-    level: '入门',
-    icon: '🔄',
-    component: () => import('./animation/rotation-animation.vue')
-  },
-  {
-    id: 'phong-material',
-    name: 'Phong Material',
-    description: 'Phong材质，理解材质和光照的关系',
-    category: 'material',
-    level: '进阶',
-    icon: '🎨',
-    component: () => import('./material/phong-material.vue')
-  },
-  {
-    id: 'custom-geometry',
-    name: 'Custom Geometry',
-    description: '自定义几何体，手动创建顶点',
-    category: 'geometry',
-    level: '进阶',
-    icon: '⚡',
-    component: () => import('./geometry/custom-geometry.vue')
   }
 ];
+
+export const demos: DemoConfig[] = [...basicsDemos];
 
 export function getDemoById(id: string): DemoConfig | undefined {
   return demos.find(d => d.id === id);
