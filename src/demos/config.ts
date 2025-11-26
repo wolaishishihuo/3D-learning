@@ -36,6 +36,15 @@ export const demos: DemoConfig[] = [
     component: () => import('./basics/basic-cube.vue')
   },
   {
+    id: 'data-gui',
+    name: 'Data GUI',
+    description: '数据 GUI 示例，学习数据 GUI 的使用',
+    category: 'basics',
+    level: '入门',
+    icon: '🔍',
+    component: () => import('./basics/data-gui.vue')
+  },
+  {
     id: 'sphere-geometry',
     name: 'Sphere Geometry',
     description: '球体几何体，理解几何体参数',
