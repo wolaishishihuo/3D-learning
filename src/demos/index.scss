@@ -10,6 +10,7 @@ $bp-mobile: 768px;
 }
 
 .canvas-container {
+  position: relative;
   width: 100%;
   height: 600px;
   background: #111;

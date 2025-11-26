@@ -16,7 +16,7 @@ let camera: THREE.PerspectiveCamera | null = null;
 let renderer: THREE.WebGLRenderer | null = null;
 let mesh: THREE.Mesh | null = null;
 let pointLight: THREE.PointLight | null = null;
-
+let gui: GUI | null = null;
 const test5Value = ref(0);
 
 const createGui = (
@@ -24,7 +24,17 @@ const createGui = (
   material: THREE.MeshLambertMaterial,
   pointLight: THREE.PointLight
 ) => {
-  const gui = new GUI();
+  // 将 GUI 附加到 containerRef，而不是默认的 body
+  gui = new GUI({ container: containerRef.value });
+
+  // 设置 GUI 位置为 containerRef 的右上角
+  if (gui.domElement && containerRef.value) {
+    gui.domElement.style.position = 'absolute';
+    gui.domElement.style.top = '0';
+    gui.domElement.style.right = '0';
+    gui.domElement.style.zIndex = '1000';
+  }
+
   const meshFolder = gui.addFolder('立方体');
   meshFolder.addColor(material, 'color');
   meshFolder.add(mesh.position, 'x').step(10);
@@ -118,6 +128,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   renderer?.dispose();
+  gui?.destroy();
 });
 </script>
 
