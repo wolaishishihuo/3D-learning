@@ -1,4 +1,4 @@
-import { defineConfig, presetUno, presetAttributify, presetIcons } from 'unocss'
+import { defineConfig, presetUno, presetAttributify, presetIcons } from 'unocss';
 
 export default defineConfig({
   presets: [
@@ -7,9 +7,9 @@ export default defineConfig({
     presetIcons({
       scale: 1.2,
       extraProperties: {
-        'display': 'inline-block',
-        'vertical-align': 'middle',
-      },
-    }),
-  ],
-})
+        display: 'inline-block',
+        'vertical-align': 'middle'
+      }
+    })
+  ]
+});

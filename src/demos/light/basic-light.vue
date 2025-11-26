@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue';
 
-const containerRef = ref<HTMLDivElement>()
+const containerRef = ref<HTMLDivElement>();
 
 onMounted(() => {
   // TODO: 在这里初始化 Three.js 场景
@@ -11,11 +11,11 @@ onMounted(() => {
   // 4. 添加环境光 (AmbientLight)
   // 5. 添加方向光 (DirectionalLight)
   // 6. 创建物体来展示光照效果
-})
+});
 
 onUnmounted(() => {
   // TODO: 清理资源
-})
+});
 </script>
 
 <template>

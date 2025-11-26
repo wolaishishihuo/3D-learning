@@ -9,32 +9,32 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from 'vue'
-import { getDemoById } from '@/demos/config'
+import type { Component } from 'vue';
+import { getDemoById } from '@/demos/config';
 
-const route = useRoute()
-const DemoComponent = shallowRef<Component>()
-const demoConfig = ref()
-const loading = ref(true)
+const route = useRoute();
+const DemoComponent = shallowRef<Component>();
+const demoConfig = ref();
+const loading = ref(true);
 
 const loadDemo = async () => {
-  const demoId = route.params.id as string
-  demoConfig.value = getDemoById(demoId)
+  const demoId = route.params.id as string;
+  demoConfig.value = getDemoById(demoId);
 
   if (!demoConfig.value) {
-    loading.value = false
-    return
+    loading.value = false;
+    return;
   }
 
   try {
-    const module = await demoConfig.value.component()
-    DemoComponent.value = module.default
+    const module = await demoConfig.value.component();
+    DemoComponent.value = module.default;
   } catch (error) {
-    console.error('Failed to load demo:', error)
+    console.error('Failed to load demo:', error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
-watch(() => route.params.id, loadDemo, { immediate: true })
+watch(() => route.params.id, loadDemo, { immediate: true });
 </script>

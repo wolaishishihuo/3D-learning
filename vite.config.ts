@@ -1,11 +1,11 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import path from 'path'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
-import UnoCSS from 'unocss/vite'
-import VueDevTools from 'vite-plugin-vue-devtools'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import path from 'path';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
+import UnoCSS from 'unocss/vite';
+import VueDevTools from 'vite-plugin-vue-devtools';
 
 export default defineConfig({
   plugins: [
@@ -37,4 +37,4 @@ export default defineConfig({
     open: true,
     strictPort: false
   }
-})
+});

@@ -12,6 +12,7 @@ pnpm format   # 代码格式化
 ```
 
 如遇到 Vite 缓存问题（504 Outdated Optimize Dep），运行：
+
 ```bash
 rm -rf node_modules/.vite && pnpm dev
 ```
@@ -53,15 +54,15 @@ src/
 // 添加新 Demo 示例
 export const demos: DemoConfig[] = [
   {
-    id: 'my-demo',           // 路由参数
-    name: 'My Demo',         // 显示名称
+    id: 'my-demo', // 路由参数
+    name: 'My Demo', // 显示名称
     description: '描述',
-    category: 'basics',      // 分类: basics/geometry/material/light/animation
-    level: '入门',           // 难度: 入门/进阶/高级
+    category: 'basics', // 分类: basics/geometry/material/light/animation
+    level: '入门', // 难度: 入门/进阶/高级
     icon: '🎯',
     component: () => import('./basics/my-demo.vue')
   }
-]
+];
 ```
 
 路由自动匹配：`/demos/:category/:id`
@@ -99,6 +100,7 @@ export const projects: ProjectConfig[] = [
 ### 4. UnoCSS 图标
 
 使用 `@iconify-json/carbon` 图标集：
+
 ```html
 <div class="i-carbon-search" />
 <div class="i-carbon-arrow-right" />
@@ -122,13 +124,13 @@ export const projects: ProjectConfig[] = [
 
 ## 路由结构
 
-| 路径 | 页面 | 说明 |
-|------|------|------|
-| `/` | Home | 首页（学习示例 + 实战项目入口） |
-| `/demos` | DemoList | Demo 列表（支持搜索/筛选） |
-| `/demos/:category/:id` | DemoDetail | Demo 详情（动态组件加载） |
-| `/projects` | ProjectList | 实战项目列表（支持搜索） |
-| `/projects/:id` | 项目组件 | 具体实战项目（直接路由到组件） |
+| 路径                   | 页面        | 说明                            |
+| ---------------------- | ----------- | ------------------------------- |
+| `/`                    | Home        | 首页（学习示例 + 实战项目入口） |
+| `/demos`               | DemoList    | Demo 列表（支持搜索/筛选）      |
+| `/demos/:category/:id` | DemoDetail  | Demo 详情（动态组件加载）       |
+| `/projects`            | ProjectList | 实战项目列表（支持搜索）        |
+| `/projects/:id`        | 项目组件    | 具体实战项目（直接路由到组件）  |
 
 ## 添加新内容步骤
 
@@ -148,16 +150,16 @@ export const projects: ProjectConfig[] = [
 
 ## 技术栈速查
 
-| 技术 | 用途 |
-|------|------|
-| Vue 3 + TypeScript | 框架 |
-| Vite | 构建工具 |
-| Three.js | 3D 渲染 |
-| UnoCSS | 原子化 CSS + 图标 |
-| Ant Design Vue | UI 组件库 |
-| GSAP | 动画库 |
-| Vue Router | 路由 |
-| Pinia | 状态管理 |
+| 技术               | 用途              |
+| ------------------ | ----------------- |
+| Vue 3 + TypeScript | 框架              |
+| Vite               | 构建工具          |
+| Three.js           | 3D 渲染           |
+| UnoCSS             | 原子化 CSS + 图标 |
+| Ant Design Vue     | UI 组件库         |
+| GSAP               | 动画库            |
+| Vue Router         | 路由              |
+| Pinia              | 状态管理          |
 
 ## 注意事项
 

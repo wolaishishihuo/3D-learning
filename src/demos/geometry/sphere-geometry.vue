@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue';
 
-const containerRef = ref<HTMLDivElement>()
+const containerRef = ref<HTMLDivElement>();
 
 onMounted(() => {
   // TODO: 在这里初始化 Three.js 场景
@@ -11,11 +11,11 @@ onMounted(() => {
   // 4. 创建球体几何体 (SphereGeometry)
   // 5. 创建材质并添加到场景
   // 6. 开始渲染循环
-})
+});
 
 onUnmounted(() => {
   // TODO: 清理资源
-})
+});
 </script>
 
 <template>

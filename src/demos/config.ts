@@ -1,19 +1,19 @@
-import type { Component } from 'vue'
+import type { Component } from 'vue';
 
 export interface DemoConfig {
-  id: string
-  name: string
-  description: string
-  category: string
-  level: '入门' | '进阶' | '高级'
-  icon: string
-  component: () => Promise<Component>
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  level: '入门' | '进阶' | '高级';
+  icon: string;
+  component: () => Promise<Component>;
 }
 
 export interface Category {
-  id: string
-  name: string
-  icon: string
+  id: string;
+  name: string;
+  icon: string;
 }
 
 export const categories: Category[] = [
@@ -23,7 +23,7 @@ export const categories: Category[] = [
   { id: 'material', name: '材质', icon: '🎨' },
   { id: 'light', name: '光照', icon: '💡' },
   { id: 'animation', name: '动画', icon: '🔄' }
-]
+];
 
 export const demos: DemoConfig[] = [
   {
@@ -80,13 +80,13 @@ export const demos: DemoConfig[] = [
     icon: '⚡',
     component: () => import('./geometry/custom-geometry.vue')
   }
-]
+];
 
 export function getDemoById(id: string): DemoConfig | undefined {
-  return demos.find(d => d.id === id)
+  return demos.find(d => d.id === id);
 }
 
 export function getDemosByCategory(category: string): DemoConfig[] {
-  if (category === 'all') return demos
-  return demos.filter(d => d.category === category)
+  if (category === 'all') return demos;
+  return demos.filter(d => d.category === category);
 }

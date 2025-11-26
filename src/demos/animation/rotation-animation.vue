@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue';
 
-const containerRef = ref<HTMLDivElement>()
+const containerRef = ref<HTMLDivElement>();
 
 onMounted(() => {
   // TODO: 在这里初始化 Three.js 场景
@@ -11,11 +11,11 @@ onMounted(() => {
   // 4. 创建物体
   // 5. 在动画循环中更新 rotation
   // 6. 使用 requestAnimationFrame
-})
+});
 
 onUnmounted(() => {
   // TODO: 清理资源
-})
+});
 </script>
 
 <template>

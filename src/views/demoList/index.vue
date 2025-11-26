@@ -139,60 +139,60 @@
 </template>
 
 <script setup lang="ts">
-import { categories, getDemosByCategory } from '@/demos/config'
-import type { DemoConfig } from '@/demos/config'
-import Beams from '@/blocks/Backgrounds/Beams/Beams.vue'
+import { categories, getDemosByCategory } from '@/demos/config';
+import type { DemoConfig } from '@/demos/config';
+import Beams from '@/blocks/Backgrounds/Beams/Beams.vue';
 
-const router = useRouter()
-const activeCategory = ref('all')
-const searchQuery = ref('')
+const router = useRouter();
+const activeCategory = ref('all');
+const searchQuery = ref('');
 
-const allDemos = computed(() => getDemosByCategory('all'))
+const allDemos = computed(() => getDemosByCategory('all'));
 
 const filteredDemos = computed(() => {
-  let demos = allDemos.value
+  let demos = allDemos.value;
 
   // Filter by category
   if (activeCategory.value !== 'all') {
-    demos = demos.filter(d => d.category === activeCategory.value)
+    demos = demos.filter(d => d.category === activeCategory.value);
   }
 
   // Filter by search query
   if (searchQuery.value.trim()) {
-    const query = searchQuery.value.toLowerCase()
+    const query = searchQuery.value.toLowerCase();
     demos = demos.filter(
       d => d.name.toLowerCase().includes(query) || d.description.toLowerCase().includes(query)
-    )
+    );
   }
 
-  return demos
-})
+  return demos;
+});
 
 const getLevelClass = (level: string) => {
   switch (level) {
     case '入门':
-      return 'bg-white/5 border-white/10 text-gray-400'
+      return 'bg-white/5 border-white/10 text-gray-400';
     case '进阶':
-      return 'bg-white/10 border-white/20 text-gray-300'
+      return 'bg-white/10 border-white/20 text-gray-300';
     case '高级':
-      return 'bg-white/20 border-white/30 text-white'
+      return 'bg-white/20 border-white/30 text-white';
     default:
-      return 'bg-white/5 border-white/10 text-gray-400'
+      return 'bg-white/5 border-white/10 text-gray-400';
   }
-}
+};
 
 const getCategoryName = (id: string) => {
-  return categories.find(c => c.id === id)?.name || id
-}
+  return categories.find(c => c.id === id)?.name || id;
+};
 
 const clearFilters = () => {
-  activeCategory.value = 'all'
-  searchQuery.value = ''
-}
+  activeCategory.value = 'all';
+  searchQuery.value = '';
+};
 
 const goToDemo = (demo: DemoConfig) => {
-  router.push(`/demos/${demo.category}/${demo.id}`)
-}
+  router.push(`/demos/${demo.category}/${demo.id}`);
+};
 </script>
 
 <style scoped lang="scss">

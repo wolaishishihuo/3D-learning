@@ -91,27 +91,27 @@
 </template>
 
 <script setup lang="ts">
-import { projects } from '@/projects/config'
-import type { ProjectConfig } from '@/projects/config'
-import Beams from '@/blocks/Backgrounds/Beams/Beams.vue'
+import { projects } from '@/projects/config';
+import type { ProjectConfig } from '@/projects/config';
+import Beams from '@/blocks/Backgrounds/Beams/Beams.vue';
 
-const router = useRouter()
-const searchQuery = ref('')
+const router = useRouter();
+const searchQuery = ref('');
 
 const filteredProjects = computed(() => {
   if (!searchQuery.value.trim()) {
-    return projects
+    return projects;
   }
 
-  const query = searchQuery.value.toLowerCase()
+  const query = searchQuery.value.toLowerCase();
   return projects.filter(
     p => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
-  )
-})
+  );
+});
 
 const goToProject = (project: ProjectConfig) => {
-  router.push(`/projects/${project.id}`)
-}
+  router.push(`/projects/${project.id}`);
+};
 </script>
 
 <style scoped lang="scss">

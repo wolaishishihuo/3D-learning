@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ConfigProvider, theme } from 'ant-design-vue'
+import { ConfigProvider, theme } from 'ant-design-vue';
 </script>
 
 <template>
@@ -8,6 +8,8 @@ import { ConfigProvider, theme } from 'ant-design-vue'
       algorithm: theme.darkAlgorithm
     }"
   >
-    <router-view />
+    <div id="app">
+      <router-view />
+    </div>
   </ConfigProvider>
 </template>

@@ -1,8 +1,9 @@
-import eslint from '@eslint/js'
-import tseslint from 'typescript-eslint'
-import pluginVue from 'eslint-plugin-vue'
-import prettier from 'eslint-plugin-prettier/recommended'
-import autoImportGlobals from './.eslintrc-auto-import.json' with { type: 'json' }
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import pluginVue from 'eslint-plugin-vue';
+import prettier from 'eslint-plugin-prettier/recommended';
+import globals from 'globals';
+import autoImportGlobals from './.eslintrc-auto-import.json' with { type: 'json' };
 
 export default [
   eslint.configs.recommended,
@@ -27,7 +28,8 @@ export default [
         cancelAnimationFrame: 'readonly',
         HTMLDivElement: 'readonly',
         ResizeObserver: 'readonly',
-        IntersectionObserver: 'readonly'
+        IntersectionObserver: 'readonly',
+        performance: 'readonly'
       }
     }
   },
@@ -45,7 +47,8 @@ export default [
       'prettier/prettier': [
         'error',
         {
-          endOfLine: 'auto'
+          endOfLine: 'auto',
+          semi: true
         }
       ]
     }
@@ -53,4 +56,4 @@ export default [
   {
     ignores: ['dist', 'node_modules', '*.config.js']
   }
-]
+];

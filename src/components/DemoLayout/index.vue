@@ -39,12 +39,12 @@
 </template>
 
 <script setup lang="ts">
-import DotGrid from '@/blocks/Backgrounds/DotGrid/DotGrid.vue'
+import DotGrid from '@/blocks/Backgrounds/DotGrid/DotGrid.vue';
 
 interface Props {
-  title?: string
-  description?: string
-  level?: string
+  title?: string;
+  description?: string;
+  level?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -52,26 +52,26 @@ const props = withDefaults(defineProps<Props>(), {
   title: '',
   description: '',
   level: ''
-})
+});
 
-const router = useRouter()
+const router = useRouter();
 
 const levelColor = computed(() => {
   switch (props.level) {
     case '入门':
-      return 'green'
+      return 'green';
     case '进阶':
-      return 'blue'
+      return 'blue';
     case '高级':
-      return 'orange'
+      return 'orange';
     default:
-      return 'blue'
+      return 'blue';
   }
-})
+});
 
 const goBack = () => {
-  router.push('/demos')
-}
+  router.push('/demos');
+};
 </script>
 
 <style scoped lang="scss">

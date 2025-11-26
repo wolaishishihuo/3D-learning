@@ -32,13 +32,13 @@ pnpm build
 
 ## 技术栈
 
-| 核心 | UI/样式 | 工具链 |
-|------|---------|--------|
-| Vue 3 | Ant Design Vue | Vite |
-| TypeScript | UnoCSS | ESLint + Prettier |
-| Three.js | SCSS | Husky + Commitlint |
-| Vue Router | GSAP | unplugin-auto-import |
-| Pinia | | unplugin-vue-components |
+| 核心       | UI/样式        | 工具链                  |
+| ---------- | -------------- | ----------------------- |
+| Vue 3      | Ant Design Vue | Vite                    |
+| TypeScript | UnoCSS         | ESLint + Prettier       |
+| Three.js   | SCSS           | Husky + Commitlint      |
+| Vue Router | GSAP           | unplugin-auto-import    |
+| Pinia      |                | unplugin-vue-components |
 
 ## 项目结构
 
@@ -84,8 +84,8 @@ Vue、Vue Router、Pinia API 无需手动导入：
 ```vue
 <script setup lang="ts">
 // 直接使用
-const count = ref(0)
-const router = useRouter()
+const count = ref(0);
+const router = useRouter();
 </script>
 ```
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue';
 
-const containerRef = ref<HTMLDivElement>()
+const containerRef = ref<HTMLDivElement>();
 
 onMounted(() => {
   // TODO: 在这里初始化 Three.js 场景
@@ -11,11 +11,11 @@ onMounted(() => {
   // 4. 使用 BufferGeometry 创建自定义几何体
   // 5. 定义顶点位置 (position attribute)
   // 6. 可选：定义法线、UV、颜色等属性
-})
+});
 
 onUnmounted(() => {
   // TODO: 清理资源
-})
+});
 </script>
 
 <template>

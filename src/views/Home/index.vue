@@ -38,18 +38,18 @@
 </template>
 
 <script setup lang="ts">
-import Beams from '@/blocks/Backgrounds/Beams/Beams.vue'
-import { useRouter } from 'vue-router'
+import Beams from '@/blocks/Backgrounds/Beams/Beams.vue';
+import { useRouter } from 'vue-router';
 
-const router = useRouter()
+const router = useRouter();
 
 const goToDemos = () => {
-  router.push('/demos')
-}
+  router.push('/demos');
+};
 
 const goToProjects = () => {
-  router.push('/projects')
-}
+  router.push('/projects');
+};
 </script>
 
 <style scoped lang="scss">

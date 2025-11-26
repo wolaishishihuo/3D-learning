@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue';
 
-const containerRef = ref<HTMLDivElement>()
+const containerRef = ref<HTMLDivElement>();
 
 onMounted(() => {
   // TODO: 在这里初始化 Three.js 场景
@@ -11,11 +11,11 @@ onMounted(() => {
   // 4. 创建 MeshPhongMaterial
   // 5. 设置材质属性 (color, shininess, specular)
   // 6. 添加光源来展示 Phong 效果
-})
+});
 
 onUnmounted(() => {
   // TODO: 清理资源
-})
+});
 </script>
 
 <template>
