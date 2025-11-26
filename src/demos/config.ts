@@ -43,6 +43,15 @@ const basicsDemos: DemoConfig[] = [
     level: '入门',
     icon: '🔍',
     component: () => import('./basics/data-gui.vue')
+  },
+  {
+    id: 'perspective-camera',
+    name: 'Perspective Camera',
+    description: '深入理解透视相机以及视椎体',
+    category: 'basics',
+    level: '入门',
+    icon: '💡',
+    component: () => import('./basics/perspective-camera.vue')
   }
 ];
 
