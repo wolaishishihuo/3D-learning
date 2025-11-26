@@ -5,14 +5,8 @@ $bp-mobile: 768px;
 // ========== Demo 通用布局 ==========
 .demo-scene {
   display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 1.5rem;
   max-width: 1400px;
   margin: 0 auto;
-
-  @media (max-width: $bp-tablet) {
-    grid-template-columns: 1fr;
-  }
 }
 
 .canvas-container {
