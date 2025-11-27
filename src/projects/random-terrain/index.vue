@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { createNoise2D } from 'simplex-noise';
 
 const containerRef = ref<HTMLDivElement>();
 let scene: THREE.Scene;
@@ -19,12 +20,25 @@ const initScene = () => {
 
   scene = new THREE.Scene();
 
-  const planeGeometry = new THREE.PlaneGeometry(100, 100, 10, 10);
+  const planeGeometry = new THREE.PlaneGeometry(300, 300, 100, 100);
+  const noise2D = createNoise2D();
+
+  const positions = planeGeometry.attributes.position;
+  for (let i = 0; i < positions.count; i++) {
+    const x = positions.getX(i);
+    const y = positions.getY(i);
+
+    const z = noise2D(x / 100, y / 100) * 50;
+    positions.setZ(i, z);
+  }
+
   const planeMaterial = new THREE.MeshBasicMaterial({
     color: new THREE.Color('orange'),
     wireframe: true
   });
   mesh = new THREE.Mesh(planeGeometry, planeMaterial);
+
+  mesh.rotateX(Math.PI / 2);
   scene.add(mesh);
 
   const axesHelper = new THREE.AxesHelper(100);
