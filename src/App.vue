@@ -8,8 +8,6 @@ import { ConfigProvider, theme } from 'ant-design-vue';
       algorithm: theme.darkAlgorithm
     }"
   >
-    <div id="app">
-      <router-view />
-    </div>
+    <router-view />
   </ConfigProvider>
 </template>
