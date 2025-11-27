@@ -77,16 +77,99 @@ const geometryDemos: DemoConfig[] = [
     level: '进阶',
     icon: '🔷',
     component: () => import('./geometry/point-line-mesh.vue')
+  },
+  {
+    id: 'curves',
+    name: '如何画各种曲线',
+    description: '学习如何画各种曲线',
+    category: 'geometry',
+    level: '进阶',
+    icon: '📈',
+    component: () => import('./geometry/curves.vue')
   }
 ];
 
-export const demos: DemoConfig[] = [...basicsDemos, ...cameraDemos, ...geometryDemos];
+const materialDemos: DemoConfig[] = [
+  {
+    id: 'phong-material',
+    name: 'Phong Material',
+    description: 'Phong 材质示例',
+    category: 'material',
+    level: '入门',
+    icon: '🎨',
+    component: () => import('./material/phong-material.vue')
+  },
+  {
+    id: 'material-color-texture',
+    name: '材质颜色和纹理贴图',
+    description: '学习材质颜色和纹理贴图的使用',
+    category: 'material',
+    level: '进阶',
+    icon: '🎨',
+    component: () => import('./material/material-color-texture.vue')
+  },
+  {
+    id: 'uv-coordinates-animation',
+    name: 'UV 坐标和 UV 动画',
+    description: '学习 UV 坐标和 UV 动画的使用',
+    category: 'material',
+    level: '进阶',
+    icon: '🎨',
+    component: () => import('./material/uv-coordinates-animation.vue')
+  }
+];
+
+const lightDemos: DemoConfig[] = [
+  {
+    id: 'basic-light',
+    name: 'Basic Light',
+    description: '基础光照示例，学习环境光和方向光',
+    category: 'light',
+    level: '入门',
+    icon: '💡',
+    component: () => import('./light/basic-light.vue')
+  }
+];
+
+const animationDemos: DemoConfig[] = [
+  {
+    id: 'rotation-animation',
+    name: 'Rotation Animation',
+    description: '旋转动画示例，学习使用 requestAnimationFrame 创建动画',
+    category: 'animation',
+    level: '入门',
+    icon: '🔄',
+    component: () => import('./animation/rotation-animation.vue')
+  }
+];
+
+export const demos: DemoConfig[] = [
+  ...basicsDemos,
+  ...cameraDemos,
+  ...geometryDemos,
+  ...materialDemos,
+  ...lightDemos,
+  ...animationDemos
+];
 
 export function getDemoById(id: string): DemoConfig | undefined {
   return demos.find(d => d.id === id);
 }
 
+// 难度等级排序权重：入门(0) → 进阶(1) → 高级(2)
+const levelOrder: Record<'入门' | '进阶' | '高级', number> = {
+  入门: 0,
+  进阶: 1,
+  高级: 2
+};
+
 export function getDemosByCategory(category: string): DemoConfig[] {
-  if (category === 'all') return demos;
-  return demos.filter(d => d.category === category);
+  let result: DemoConfig[];
+  if (category === 'all') {
+    result = demos;
+  } else {
+    result = demos.filter(d => d.category === category);
+  }
+  // 按照难度等级排序：入门 → 进阶 → 高级
+  return result.sort((a, b) => levelOrder[a.level] - levelOrder[b.level]);
 }

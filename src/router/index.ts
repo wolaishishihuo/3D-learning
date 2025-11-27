@@ -32,6 +32,11 @@ const routes: RouteRecordRaw[] = [
     path: '/projects/random-terrain',
     name: 'RandomTerrain',
     component: () => import('@/projects/random-terrain/index.vue')
+  },
+  {
+    path: '/projects/cloud-thunder-pattern',
+    name: 'CloudThunderPattern',
+    component: () => import('@/projects/cloud-thunder-pattern/index.vue')
   }
 ];
 

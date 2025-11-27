@@ -18,5 +18,11 @@ export const projects: ProjectConfig[] = [
     name: '城市管理',
     description: '城市管理',
     icon: '🏙️'
+  },
+  {
+    id: 'cloud-thunder-pattern',
+    name: '实战: 云雷纹',
+    description: '实战: 云雷纹',
+    icon: '⚡'
   }
 ];
