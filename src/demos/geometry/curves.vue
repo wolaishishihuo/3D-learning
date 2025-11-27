@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import * as THREE from 'three';
 import { useThreeScene } from '@/composables/useThreeScene';
+import SceneCard from '@/components/SceneCard/index.vue';
 
-const containerRefs = ref<HTMLDivElement[]>([]);
+const sceneCardRefs = ref<InstanceType<typeof SceneCard>[]>([]);
 const cleanupFns: (() => void)[] = [];
 
 // 定义5种曲线的配置
@@ -87,7 +88,8 @@ const demos = [
 ];
 
 onMounted(() => {
-  containerRefs.value.forEach((container, index) => {
+  sceneCardRefs.value.forEach((cardRef: InstanceType<typeof SceneCard>, index: number) => {
+    const container = cardRef?.container;
     if (!container) return;
 
     const { scene, cleanup } = useThreeScene(container);
@@ -117,17 +119,14 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="mx-auto grid max-w-[1600px] grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6 p-6 max-md:grid-cols-1 max-md:gap-4 max-md:p-4"
+    class="mx-auto grid max-w-[1600px] grid-cols-[repeat(auto-fit,minmax(500px,1fr))] gap-6 p-6 max-md:grid-cols-1 max-md:gap-4 max-md:p-4"
   >
-    <div
+    <SceneCard
       v-for="(item, index) in demos"
       :key="index"
-      class="border-white/10 hover:border-white/30 flex flex-col overflow-hidden rounded-xl border border-solid bg-[#1e1e1e] transition-colors duration-300"
-    >
-      <div class="bg-white/5 border-white/10 border-b border-solid p-4">
-        <h3 class="m-0 text-base font-semibold text-white">{{ item.title }}</h3>
-      </div>
-      <div ref="containerRefs" class="relative h-[300px] w-full"></div>
-    </div>
+      ref="sceneCardRefs"
+      :title="item.title"
+      height="400px"
+    />
   </div>
 </template>

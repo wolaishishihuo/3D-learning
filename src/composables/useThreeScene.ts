@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { useResizeObserver } from '@vueuse/core';
 
 export interface ThreeSceneOptions {
   cameraPosition?: [number, number, number];
@@ -47,6 +48,17 @@ export const useThreeScene = (container: HTMLElement, options: ThreeSceneOptions
     scene.add(new THREE.GridHelper(50, 50, 0x444444, 0x222222));
   }
 
+  // 响应容器尺寸变化
+  const { stop: stopResizeObserver } = useResizeObserver(container, entries => {
+    const entry = entries[0];
+    const { width, height } = entry.contentRect;
+    if (width === 0 || height === 0) return;
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  });
+
   // 渲染循环
   let animationId: number;
   const animate = () => {
@@ -59,6 +71,7 @@ export const useThreeScene = (container: HTMLElement, options: ThreeSceneOptions
   // 清理函数
   const cleanup = () => {
     cancelAnimationFrame(animationId);
+    stopResizeObserver();
     renderer.dispose();
     controls.dispose();
     container.removeChild(renderer.domElement);
