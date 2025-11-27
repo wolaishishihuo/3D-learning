@@ -20,7 +20,7 @@ export default {
       ]
     ],
     'subject-case': [0], // subject大小写不做校验
-    'header-max-length': [2, 'always', 200], // 增加 header 最大长度到 200
+    'header-max-length': [2, 'always', 500], // 增加 header 最大长度到 200
     // 允许以 emoji 开头
     'subject-empty': [2, 'never'],
     'type-empty': [2, 'never']
