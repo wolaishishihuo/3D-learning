@@ -1,26 +1,58 @@
+<script setup lang="ts">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+const containerRef = ref<HTMLDivElement>();
+
+const initScene = () => {
+  if (!containerRef.value) return;
+
+  const width = containerRef.value.offsetWidth;
+  const height = containerRef.value.offsetHeight;
+
+  const scene = new THREE.Scene();
+
+  const textureLoader = new THREE.TextureLoader();
+  const texture = textureLoader.load('/src/assets/jupiter.png');
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.wrapS = THREE.RepeatWrapping;
+
+  const sphereGeometry = new THREE.SphereGeometry(50);
+  const material = new THREE.MeshBasicMaterial({ map: texture });
+  const mesh = new THREE.Mesh(sphereGeometry, material);
+  scene.add(mesh);
+
+  const camera = new THREE.PerspectiveCamera(60, width / height, 1, 10000);
+  camera.position.set(63, 8, 118);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(width, height);
+
+  function render() {
+    mesh.material.map!.offset.x += 0.001;
+    renderer?.render(scene!, camera!);
+    requestAnimationFrame(render);
+  }
+  render();
+  containerRef.value.appendChild(renderer.domElement);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+
+  controls.addEventListener('change', () => {
+    console.log(camera.position);
+  });
+};
+
+onMounted(() => {
+  initScene();
+});
+</script>
+
 <template>
-  <div class="demo-container">
-    <div class="placeholder">
-      <h2>UV 坐标和 UV 动画</h2>
-    </div>
-  </div>
+  <div ref="containerRef" class="canvas-container"></div>
 </template>
 
-<script setup lang="ts"></script>
-
-<style scoped>
-.demo-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: #666;
-}
+<style lang="scss">
+@use '@/demos/index.scss';
 </style>
