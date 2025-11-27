@@ -5,5 +5,3 @@
     <slot></slot>
   </code>
 </template>
-
-
