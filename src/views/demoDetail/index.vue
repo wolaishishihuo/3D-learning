@@ -1,11 +1,11 @@
 <template>
-  <DemoLayout
+  <Layout
     :title="demoConfig?.name"
     :description="demoConfig?.description"
     :level="demoConfig?.level"
   >
     <component :is="DemoComponent" v-if="DemoComponent" />
-  </DemoLayout>
+  </Layout>
 </template>
 
 <script setup lang="ts">

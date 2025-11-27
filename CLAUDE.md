@@ -15,11 +15,13 @@ pnpm format      # Prettier 格式化
 ```
 
 **Vite 缓存问题**: 遇到 "504 Outdated Optimize Dep" 错误时：
+
 ```bash
 rm -rf node_modules/.vite && pnpm dev
 ```
 
 **Git 提交规范**: 使用 Husky + Commitlint，提交信息必须符合 conventional commits 格式：
+
 ```bash
 git commit -m "✨ feat: 添加新功能"
 git commit -m "🐛 fix: 修复问题"
@@ -61,6 +63,7 @@ src/
 **重要**: 所有 Demo 通过 `src/demos/config.ts` 统一管理，路由自动生成。
 
 添加新 Demo 的步骤：
+
 1. 在 `src/demos/{category}/` 下创建 `.vue` 文件
 2. 在 `src/demos/config.ts` 的 `demos` 数组中添加配置：
 
@@ -83,6 +86,7 @@ src/
 **重要**: 实战项目需要同时在 `src/projects/config.ts` 和 `src/router/index.ts` 中配置。
 
 添加新实战项目的步骤：
+
 1. 在 `src/projects/` 下创建项目文件夹（如 `my-project/`）
 2. 创建 `index.vue` 主组件
 3. 在 `src/projects/config.ts` 中添加项目信息（用于列表展示）：
