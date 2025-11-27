@@ -9,10 +9,52 @@ let camera: THREE.PerspectiveCamera | null = null;
 let renderer: THREE.WebGLRenderer | null = null;
 let controls: OrbitControls | null = null;
 
+// - Points: 点模型
+// function pointsMeshInit() {
+//   const geometry = new THREE.BufferGeometry();
+
+//   const vertices = new Float32Array([0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 100, 100, 0]);
+//   const attribute = new THREE.BufferAttribute(vertices, 3);
+//   geometry.attributes.position = attribute;
+
+//   const material = new THREE.PointsMaterial({
+//     color: new THREE.Color('orange'),
+//     size: 10
+//   });
+//   return new THREE.Points(geometry, material);
+// }
+
+// - Line: 线模型
+// function lineMeshInit() {
+//   const geometry = new THREE.BufferGeometry();
+
+//   const vertices = new Float32Array([0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 100, 100, 0]);
+//   const attribute = new THREE.BufferAttribute(vertices, 3);
+//   geometry.attributes.position = attribute;
+
+//   const material = new THREE.LineBasicMaterial({
+//     color: new THREE.Color('orange')
+//   });
+//   // return new THREE.LineLoop(geometry, material);
+//   // return new THREE.Line(geometry, material);
+//   return new THREE.LineSegments(geometry, material);
+// }
+
+// - Mesh: 网格模型
+function meshMeshInit() {
+  const geometry = new THREE.PlaneGeometry(100, 100, 2, 3);
+
+  const material = new THREE.MeshBasicMaterial({
+    color: new THREE.Color('orange'),
+    wireframe: true
+  });
+
+  return new THREE.Mesh(geometry, material);
+}
+
 onMounted(() => {
   if (!containerRef.value) return;
 
-  // TODO: 在这里初始化 Three.js 场景
   // 1. 创建场景 (Scene)
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x111111);
@@ -36,11 +78,15 @@ onMounted(() => {
   const axesHelper = new THREE.AxesHelper(200);
   scene.add(axesHelper);
 
-  // TODO: 学习点模型、线模型、网格模型
   // - Points: 点模型
+  // const points = pointsMeshInit();
+  // scene.add(points);
   // - Line: 线模型
+  // const line = lineMeshInit();
+  // scene.add(line);
   // - Mesh: 网格模型
-
+  const mesh = meshMeshInit();
+  scene.add(mesh);
   // 6. 开始渲染循环
   function render() {
     if (renderer && scene && camera) {
@@ -52,14 +98,15 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  // TODO: 清理资源
   controls?.dispose();
   renderer?.dispose();
 });
 </script>
 
 <template>
-  <div ref="containerRef" class="demo-container"></div>
+  <div class="demo-scene">
+    <div ref="containerRef" class="canvas-container"></div>
+  </div>
 </template>
 
 <style lang="scss">
