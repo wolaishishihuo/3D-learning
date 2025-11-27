@@ -37,11 +37,7 @@ const initScene = () => {
   render();
   containerRef.value.appendChild(renderer.domElement);
 
-  const controls = new OrbitControls(camera, renderer.domElement);
-
-  controls.addEventListener('change', () => {
-    console.log(camera.position);
-  });
+  new OrbitControls(camera, renderer.domElement);
 };
 
 onMounted(() => {
