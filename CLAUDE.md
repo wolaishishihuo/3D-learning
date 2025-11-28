@@ -122,6 +122,7 @@ src/
 类型定义自动生成在 `types/auto-imports.d.ts` 和 `types/components.d.ts`。
 
 **项目自定义组件和 Composables 也会自动导入**，无需手动 import：
+
 - **自定义组件**：`Summary`, `SummaryItem`, `CodeBlock`, `Code`, `SceneCard` 等可直接在模板中使用
 - **Composables**：`useThreeScene` 等可直接在 script 中调用
 
@@ -148,11 +149,13 @@ src/
 ```
 
 **Props**:
+
 - `title`: 标题文本
 - `icon`: UnoCSS 图标类名
 - `columns`: 网格列数（1 或 2）
 
 **Slots**:
+
 - `default`: 放置 `SummaryItem` 子组件
 - `tip`: 底部提示信息区域
 
@@ -167,6 +170,7 @@ src/
 ```
 
 **Props**:
+
 - `title` (必填): 知识点标题
 
 #### CodeBlock - 代码片段展示
@@ -204,17 +208,19 @@ const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });`,
 ```
 
 **Props**:
+
 - `title`: 标题文本
 - `icon`: UnoCSS 图标类名
 - `columns`: 网格列数（1 或 2）
 - `snippets` (必填): 代码片段数组
 
 **CodeSnippet 类型**:
+
 ```ts
 interface CodeSnippet {
-  title: string;        // 片段标题
-  code: string;         // 代码内容
-  language?: string;    // 语言类型，默认 'javascript'
+  title: string; // 片段标题
+  code: string; // 代码内容
+  language?: string; // 语言类型，默认 'javascript'
 }
 ```
 
@@ -258,13 +264,16 @@ onMounted(() => {
 ```
 
 **Props**:
+
 - `title`: 可选标题，显示在顶部
 - `height`: 容器高度（非全屏时）
 
 **Expose**:
+
 - `container`: 内部容器的 ref，用于挂载 Three.js 渲染器
 
 **功能**:
+
 - 鼠标悬浮显示全屏按钮
 - 点击全屏按钮切换全屏模式
 - 全屏时自动充满视口
@@ -283,13 +292,13 @@ const containerRef = ref<HTMLDivElement>();
 
 // 在 setup 顶层调用，无需在 onMounted 中
 useThreeScene(containerRef, {
-  cameraPosition: [0, 20, 50],      // 可选，默认: [0, 20, 50]
-  cameraLookAt: [0, 0, 0],          // 可选，默认: [0, 0, 0]
-  showAxesHelper: true,             // 可选，默认: true
-  showGridHelper: true,             // 可选，默认: true
-  backgroundColor: 0x000000,        // 可选，默认: 0x000000
-  fov: 45,                          // 可选，默认: 45
-  
+  cameraPosition: [0, 20, 50], // 可选，默认: [0, 20, 50]
+  cameraLookAt: [0, 0, 0], // 可选，默认: [0, 0, 0]
+  showAxesHelper: true, // 可选，默认: true
+  showGridHelper: true, // 可选，默认: true
+  backgroundColor: 0x000000, // 可选，默认: 0x000000
+  fov: 45, // 可选，默认: 45
+
   // 场景初始化完成后的回调
   onReady: ({ scene, camera, renderer, controls }) => {
     // 在这里添加自定义对象到场景
@@ -307,23 +316,26 @@ useThreeScene(containerRef, {
 ```
 
 **参数**:
+
 - `containerRef` (必填): `Ref<HTMLElement | undefined | null>`，容器元素的响应式引用
 - `options` (可选): 配置对象
 
 **Options 配置**:
+
 ```ts
 interface ThreeSceneOptions {
-  cameraPosition?: [number, number, number];  // 相机位置
-  cameraLookAt?: [number, number, number];    // 相机朝向
-  showAxesHelper?: boolean;                   // 显示坐标轴
-  showGridHelper?: boolean;                   // 显示网格
-  backgroundColor?: number;                   // 背景颜色
-  fov?: number;                               // 视场角
-  onReady?: (context: ThreeSceneContext) => void;  // 初始化完成回调
+  cameraPosition?: [number, number, number]; // 相机位置
+  cameraLookAt?: [number, number, number]; // 相机朝向
+  showAxesHelper?: boolean; // 显示坐标轴
+  showGridHelper?: boolean; // 显示网格
+  backgroundColor?: number; // 背景颜色
+  fov?: number; // 视场角
+  onReady?: (context: ThreeSceneContext) => void; // 初始化完成回调
 }
 ```
 
 **返回值**:
+
 ```ts
 {
   sceneRef: ShallowRef<THREE.Scene | null>;              // 场景对象 ref
@@ -336,6 +348,7 @@ interface ThreeSceneOptions {
 ```
 
 **特性**:
+
 - ✅ 自动设置渲染循环
 - ✅ 自动处理容器尺寸变化（响应式）
 - ✅ 自动启用阻尼效果的轨道控制器
@@ -455,9 +468,7 @@ const example = 'code here';
     <Summary title="知识点总结">
       <SummaryItem title="概念1">描述内容</SummaryItem>
       <SummaryItem title="概念2">描述内容</SummaryItem>
-      <template #tip>
-        <strong>提示：</strong>补充说明
-      </template>
+      <template #tip> <strong>提示：</strong>补充说明 </template>
     </Summary>
 
     <!-- 代码片段 -->
@@ -466,13 +477,12 @@ const example = 'code here';
 </template>
 
 <script setup lang="ts">
-const codeSnippets = [
-  { title: '标题', code: `代码内容` }
-];
+const codeSnippets = [{ title: '标题', code: `代码内容` }];
 </script>
 ```
 
 **注意事项**：
+
 - 使用 `<Code>` 组件包裹 API 名称、属性名、类名等关键代码标识
 - 代码片段应按照逻辑功能分组，每个片段聚焦一个特定知识点
 - `Summary` 的 `#tip` 插槽用于补充重要提示或最佳实践
