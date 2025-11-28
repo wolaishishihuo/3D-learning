@@ -11,20 +11,16 @@
 <script setup lang="ts">
 const containerRef = ref<HTMLDivElement>();
 
-onMounted(() => {
-  if (!containerRef.value) return;
-
-  const { scene: _scene, cleanup } = useThreeScene(containerRef.value, {
-    cameraPosition: [0, 0, 5],
-    showGridHelper: false,
-    showAxesHelper: false,
-    backgroundColor: 0x000000,
-    fov: 75
-  });
-
-  // TODO: 隧道穿梭效果代码
-
-  onUnmounted(cleanup);
+useThreeScene(containerRef, {
+  cameraPosition: [0, 0, 5],
+  showGridHelper: false,
+  showAxesHelper: false,
+  backgroundColor: 0x000000,
+  fov: 75,
+  onReady: ({ scene }) => {
+    // TODO: 隧道穿梭效果代码
+    console.log('Scene ready:', scene);
+  }
 });
 </script>
 

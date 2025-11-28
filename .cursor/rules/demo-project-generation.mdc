@@ -10,7 +10,7 @@ alwaysApply: false
 
 ## Demo 文件必须使用的公共组件和函数
 
-1. **useThreeScene** composable 初始化场景（自动处理场景、相机、渲染器、控制器、响应式尺寸、cleanup）
+1. **useThreeScene** composable 初始化场景（自动处理场景、相机、渲染器、控制器、响应式尺寸、**自动 cleanup**）
 2. **SceneCard** 组件包裹场景容器（提供全屏功能）
 3. **Summary** + **SummaryItem** 组件展示知识总结
 4. **CodeBlock** 组件展示关键代码片段
@@ -33,19 +33,18 @@ const codeSnippets: CodeSnippet[] = [
   }
 ];
 
-onMounted(() => {
-  if (!sceneCardRef.value?.container) return;
+// 获取 SceneCard 内部容器的 ref
+const containerRef = computed(() => sceneCardRef.value?.container);
 
-  const { scene: _scene, cleanup } = useThreeScene(sceneCardRef.value.container, {
-    cameraPosition: [100, 100, 100],
-    showGridHelper: true,
-    showAxesHelper: true
-  });
-
-  // TODO: 添加场景内容
-  // 使用时将 _scene 改为 scene
-
-  onUnmounted(cleanup);
+// 在 setup 顶层调用，无需 onMounted，自动处理 cleanup
+useThreeScene(containerRef, {
+  cameraPosition: [100, 100, 100],
+  showGridHelper: true,
+  showAxesHelper: true,
+  onReady: ({ scene }) => {
+    // TODO: 在这里添加场景内容
+    console.log('Scene ready:', scene);
+  }
 });
 </script>
 
@@ -85,19 +84,15 @@ onMounted(() => {
 <script setup lang="ts">
 const containerRef = ref<HTMLDivElement>();
 
-onMounted(() => {
-  if (!containerRef.value) return;
-
-  const { scene: _scene, cleanup } = useThreeScene(containerRef.value, {
-    cameraPosition: [100, 100, 100],
-    showGridHelper: true,
-    showAxesHelper: true
-  });
-
-  // TODO: 添加场景内容
-  // 使用时将 _scene 改为 scene
-
-  onUnmounted(cleanup);
+// 在 setup 顶层调用，无需 onMounted，自动处理 cleanup
+useThreeScene(containerRef, {
+  cameraPosition: [100, 100, 100],
+  showGridHelper: true,
+  showAxesHelper: true,
+  onReady: ({ scene }) => {
+    // TODO: 在这里添加场景内容
+    console.log('Scene ready:', scene);
+  }
 });
 </script>
 
@@ -115,9 +110,39 @@ onMounted(() => {
 </style>
 ```
 
+## useThreeScene API
+
+**参数**:
+- `containerRef` (必填): `Ref<HTMLElement | undefined | null>`，容器元素的响应式引用
+- `options` (可选): 配置对象
+
+**Options 配置**:
+```ts
+interface ThreeSceneOptions {
+  cameraPosition?: [number, number, number];  // 相机位置，默认 [0, 20, 50]
+  cameraLookAt?: [number, number, number];    // 相机朝向，默认 [0, 0, 0]
+  showAxesHelper?: boolean;                   // 显示坐标轴，默认 true
+  showGridHelper?: boolean;                   // 显示网格，默认 true
+  backgroundColor?: number;                   // 背景颜色，默认 0x000000
+  fov?: number;                               // 视场角，默认 45
+  onReady?: (context: ThreeSceneContext) => void;  // 初始化完成回调
+}
+```
+
+**onReady 回调参数**:
+```ts
+interface ThreeSceneContext {
+  scene: THREE.Scene;
+  camera: THREE.PerspectiveCamera;
+  renderer: THREE.WebGLRenderer;
+  controls: OrbitControls;
+}
+```
+
 ## 重要注意事项
 
 1. **课程分段合并**：课程列表中的（一）（二）分段应合并为同一个文件/项目
 2. **配置更新**：新增 Demo 需更新 `src/demos/config.ts`，新增 Project 需同时更新 `src/projects/config.ts` 和 `src/router/index.ts`
-3. **cleanup 必须调用**：在 `onUnmounted` 中必须调用 `cleanup()` 清理资源，避免内存泄漏
-4. **自动导入**：`ref`、`onMounted`、`onUnmounted`、`useThreeScene`、`SceneCard`、`Summary`、`SummaryItem`、`CodeBlock`、`Code` 等均已配置自动导入，无需手动 import
+3. **自动清理**：`useThreeScene` 会在组件卸载时自动清理资源，**无需手动调用 cleanup**
+4. **自动导入**：`ref`、`computed`、`useThreeScene`、`SceneCard`、`Summary`、`SummaryItem`、`CodeBlock`、`Code` 等均已配置自动导入，无需手动 import
+5. **使用 onReady 回调**：在 `onReady` 回调中添加 3D 对象，而不是在 `onMounted` 中操作

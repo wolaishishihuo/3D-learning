@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import * as THREE from 'three';
 import type { CodeSnippet } from '@/components/CodeBlock/index.vue';
 
 const sceneCardRef = ref();
@@ -42,18 +41,17 @@ const spotLightHelper = new THREE.SpotLightHelper(spot);`,
   }
 ];
 
-onMounted(() => {
-  if (!sceneCardRef.value?.container) return;
+// 获取 SceneCard 内部容器的 ref
+const containerRef = computed(() => sceneCardRef.value?.container);
 
-  const { scene: _scene, cleanup } = useThreeScene(sceneCardRef.value.container, {
-    cameraPosition: [100, 100, 100],
-    showGridHelper: true,
-    showAxesHelper: true
-  });
-
-  // TODO: 各种灯光和常用 Helper 的代码
-
-  onUnmounted(cleanup);
+useThreeScene(containerRef, {
+  cameraPosition: [100, 100, 100],
+  showGridHelper: true,
+  showAxesHelper: true,
+  onReady: ({ scene }) => {
+    // TODO: 各种灯光和常用 Helper 的代码
+    console.log('Scene ready:', scene);
+  }
 });
 </script>
 
@@ -71,9 +69,7 @@ onMounted(() => {
       <SummaryItem title="PointLight">
         <Code>点光源</Code>：从一个点向四周发射光线，类似灯泡
       </SummaryItem>
-      <SummaryItem title="SpotLight">
-        <Code>聚光灯</Code>：锥形光束，可设置角度和衰减
-      </SummaryItem>
+      <SummaryItem title="SpotLight"> <Code>聚光灯</Code>：锥形光束，可设置角度和衰减 </SummaryItem>
       <SummaryItem title="Helper 辅助器">
         使用 <Code>LightHelper</Code> 可视化灯光位置和方向，便于调试
       </SummaryItem>

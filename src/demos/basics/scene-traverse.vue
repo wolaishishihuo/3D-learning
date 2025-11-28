@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import * as THREE from 'three';
 import type { CodeSnippet } from '@/components/CodeBlock/index.vue';
 
 const sceneCardRef = ref();
@@ -10,7 +9,7 @@ const codeSnippets: CodeSnippet[] = [
     code: `// 遍历场景中的所有对象
 scene.traverse((object) => {
   console.log(object.name, object.type);
-  
+
   if (object instanceof THREE.Mesh) {
     // 处理网格对象
     object.material.color.set(0xff0000);
@@ -31,18 +30,17 @@ console.log('本地坐标:', mesh.position);`,
   }
 ];
 
-onMounted(() => {
-  if (!sceneCardRef.value?.container) return;
+// 获取 SceneCard 内部容器的 ref
+const containerRef = computed(() => sceneCardRef.value?.container);
 
-  const { scene: _scene, cleanup } = useThreeScene(sceneCardRef.value.container, {
-    cameraPosition: [100, 100, 100],
-    showGridHelper: true,
-    showAxesHelper: true
-  });
-
-  // TODO: 场景遍历和世界坐标的代码
-
-  onUnmounted(cleanup);
+useThreeScene(containerRef, {
+  cameraPosition: [100, 100, 100],
+  showGridHelper: true,
+  showAxesHelper: true,
+  onReady: ({ scene }) => {
+    // TODO: 场景遍历和世界坐标的代码
+    console.log('Scene ready:', scene);
+  }
 });
 </script>
 
@@ -65,7 +63,8 @@ onMounted(() => {
       </SummaryItem>
 
       <template #tip>
-        <strong>提示：</strong>世界坐标 = 所有父级变换的累积结果，修改父对象位置会影响子对象的世界坐标
+        <strong>提示：</strong>世界坐标 =
+        所有父级变换的累积结果，修改父对象位置会影响子对象的世界坐标
       </template>
     </Summary>
 

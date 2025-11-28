@@ -1,6 +1,14 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { useResizeObserver } from '@vueuse/core';
+import type { Ref, ShallowRef } from 'vue';
+
+export interface ThreeSceneContext {
+  scene: THREE.Scene;
+  camera: THREE.PerspectiveCamera;
+  renderer: THREE.WebGLRenderer;
+  controls: OrbitControls;
+}
 
 export interface ThreeSceneOptions {
   cameraPosition?: [number, number, number];
@@ -9,73 +17,168 @@ export interface ThreeSceneOptions {
   showGridHelper?: boolean;
   backgroundColor?: number;
   fov?: number;
+  /** 场景初始化完成后的回调 */
+  onReady?: (context: ThreeSceneContext) => void;
 }
 
-export const useThreeScene = (container: HTMLElement, options: ThreeSceneOptions = {}) => {
+export interface ThreeSceneReturn {
+  sceneRef: ShallowRef<THREE.Scene | null>;
+  cameraRef: ShallowRef<THREE.PerspectiveCamera | null>;
+  rendererRef: ShallowRef<THREE.WebGLRenderer | null>;
+  controlsRef: ShallowRef<OrbitControls | null>;
+  /** 手动清理资源（传入 Ref 时会自动清理，通常不需要手动调用） */
+  cleanup: () => void;
+  /** 手动触发渲染一帧 */
+  render: () => void;
+}
+
+/**
+ * Three.js 场景初始化 composable
+ *
+ * @param containerRef - 容器元素的 Ref，支持响应式监听
+ * @param options - 配置选项
+ *
+ * @example
+ * ```ts
+ * const containerRef = ref<HTMLElement>();
+ *
+ * useThreeScene(containerRef, {
+ *   cameraPosition: [100, 100, 100],
+ *   onReady: ({ scene }) => {
+ *     const cube = new THREE.Mesh(geometry, material);
+ *     scene.add(cube);
+ *   }
+ * });
+ * ```
+ */
+export const useThreeScene = (
+  containerRef: Ref<HTMLElement | undefined | null>,
+  options: ThreeSceneOptions = {}
+): ThreeSceneReturn => {
   const {
     cameraPosition = [0, 20, 50],
     cameraLookAt = [0, 0, 0],
     showAxesHelper = true,
     showGridHelper = true,
     backgroundColor = 0x000000,
-    fov = 45
+    fov = 45,
+    onReady
   } = options;
 
-  const width = container.offsetWidth;
-  const height = container.offsetHeight;
+  // 使用 shallowRef 避免深度响应式代理 Three.js 对象
+  const sceneRef = shallowRef<THREE.Scene | null>(null);
+  const cameraRef = shallowRef<THREE.PerspectiveCamera | null>(null);
+  const rendererRef = shallowRef<THREE.WebGLRenderer | null>(null);
+  const controlsRef = shallowRef<OrbitControls | null>(null);
 
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(backgroundColor);
+  let animationId: number | null = null;
+  let stopResizeObserver: (() => void) | null = null;
 
-  // 相机设置
-  const camera = new THREE.PerspectiveCamera(fov, width / height, 0.1, 1000);
-  camera.position.set(...cameraPosition);
-  camera.lookAt(...cameraLookAt);
+  const cleanup = () => {
+    if (animationId !== null) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
+    }
+    stopResizeObserver?.();
+    rendererRef.value?.dispose();
+    controlsRef.value?.dispose();
+    if (
+      rendererRef.value?.domElement &&
+      containerRef.value?.contains(rendererRef.value.domElement)
+    ) {
+      containerRef.value.removeChild(rendererRef.value.domElement);
+    }
+    sceneRef.value = null;
+    cameraRef.value = null;
+    rendererRef.value = null;
+    controlsRef.value = null;
+  };
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(width, height);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  container.appendChild(renderer.domElement);
+  const render = () => {
+    if (rendererRef.value && sceneRef.value && cameraRef.value) {
+      rendererRef.value.render(sceneRef.value, cameraRef.value);
+    }
+  };
 
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
+  const init = (container: HTMLElement) => {
+    // 先清理之前的实例
+    cleanup();
 
-  // 辅助网格和坐标轴
-  if (showAxesHelper) {
-    scene.add(new THREE.AxesHelper(10));
-  }
-  if (showGridHelper) {
-    scene.add(new THREE.GridHelper(50, 50, 0x444444, 0x222222));
-  }
+    const width = container.offsetWidth;
+    const height = container.offsetHeight;
 
-  // 响应容器尺寸变化
-  const { stop: stopResizeObserver } = useResizeObserver(container, entries => {
-    const entry = entries[0];
-    const { width, height } = entry.contentRect;
+    // 防止无效尺寸导致问题
     if (width === 0 || height === 0) return;
 
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(backgroundColor);
+
+    const camera = new THREE.PerspectiveCamera(fov, width / height, 0.1, 1000);
+    camera.position.set(...cameraPosition);
+    camera.lookAt(...cameraLookAt);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
-  });
+    // 限制像素比，优化高分屏性能
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
 
-  // 渲染循环
-  let animationId: number;
-  const animate = () => {
-    animationId = requestAnimationFrame(animate);
-    controls.update();
-    renderer.render(scene, camera);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    // 辅助网格和坐标轴
+    if (showAxesHelper) {
+      scene.add(new THREE.AxesHelper(10));
+    }
+    if (showGridHelper) {
+      scene.add(new THREE.GridHelper(50, 50, 0x444444, 0x222222));
+    }
+
+    // 赋值给 ref
+    sceneRef.value = scene;
+    cameraRef.value = camera;
+    rendererRef.value = renderer;
+    controlsRef.value = controls;
+
+    // 调用 onReady 回调
+    onReady?.({ scene, camera, renderer, controls });
+
+    // 响应容器尺寸变化
+    const { stop } = useResizeObserver(container, entries => {
+      const entry = entries[0];
+      const { width, height } = entry.contentRect;
+      if (width === 0 || height === 0) return;
+
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    });
+    stopResizeObserver = stop;
+
+    // 渲染循环
+    const animate = () => {
+      animationId = requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
   };
-  animate();
 
-  // 清理函数
-  const cleanup = () => {
-    cancelAnimationFrame(animationId);
-    stopResizeObserver();
-    renderer.dispose();
-    controls.dispose();
-    container.removeChild(renderer.domElement);
-  };
+  // 监听容器 ref 变化
+  watch(
+    containerRef,
+    container => {
+      if (container) {
+        init(container);
+      } else {
+        cleanup();
+      }
+    },
+    { immediate: true }
+  );
 
-  return { scene, camera, renderer, controls, cleanup };
+  // 组件卸载时自动清理
+  onUnmounted(cleanup);
+
+  return { sceneRef, cameraRef, rendererRef, controlsRef, cleanup, render };
 };

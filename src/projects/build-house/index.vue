@@ -11,20 +11,16 @@
 <script setup lang="ts">
 const containerRef = ref<HTMLDivElement>();
 
-onMounted(() => {
-  if (!containerRef.value) return;
-
-  const { scene: _scene, cleanup } = useThreeScene(containerRef.value, {
-    cameraPosition: [100, 100, 100],
-    showGridHelper: true,
-    showAxesHelper: true,
-    backgroundColor: 0x111111,
-    fov: 45
-  });
-
-  // TODO: 盖房子代码
-
-  onUnmounted(cleanup);
+useThreeScene(containerRef, {
+  cameraPosition: [100, 100, 100],
+  showGridHelper: true,
+  showAxesHelper: true,
+  backgroundColor: 0x111111,
+  fov: 45,
+  onReady: ({ scene }) => {
+    // TODO: 盖房子代码
+    console.log('Scene ready:', scene);
+  }
 });
 </script>
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import * as THREE from 'three';
 import type { CodeSnippet } from '@/components/CodeBlock/index.vue';
 
 const sceneCardRef = ref();
@@ -12,7 +11,7 @@ for (let i = 0; i < count; i++) {
   const geometry = new THREE.BoxGeometry(size, size, size);
   const material = new THREE.MeshStandardMaterial({ color });
   const mesh = new THREE.Mesh(geometry, material);
-  
+
   // 按规律设置位置
   mesh.position.set(x, y, z);
   scene.add(mesh);
@@ -33,18 +32,17 @@ for (let i = 0; i < count; i++) {
   }
 ];
 
-onMounted(() => {
-  if (!sceneCardRef.value?.container) return;
+// 获取 SceneCard 内部容器的 ref
+const containerRef = computed(() => sceneCardRef.value?.container);
 
-  const { scene: _scene, cleanup } = useThreeScene(sceneCardRef.value.container, {
-    cameraPosition: [100, 100, 100],
-    showGridHelper: true,
-    showAxesHelper: true
-  });
-
-  // TODO: 按照规律生成各种几何体的代码
-
-  onUnmounted(cleanup);
+useThreeScene(containerRef, {
+  cameraPosition: [100, 100, 100],
+  showGridHelper: true,
+  showAxesHelper: true,
+  onReady: ({ scene }) => {
+    // TODO: 按照规律生成各种几何体的代码
+    console.log('Scene ready:', scene);
+  }
 });
 </script>
 
@@ -62,9 +60,7 @@ onMounted(() => {
       <SummaryItem title="网格排列">
         使用双层循环实现网格状排列，通过索引计算 x、z 坐标
       </SummaryItem>
-      <SummaryItem title="螺旋排列">
-        结合角度递增和半径变化实现螺旋排列效果
-      </SummaryItem>
+      <SummaryItem title="螺旋排列"> 结合角度递增和半径变化实现螺旋排列效果 </SummaryItem>
     </Summary>
 
     <CodeBlock title="关键代码" :snippets="codeSnippets" />

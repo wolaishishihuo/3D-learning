@@ -273,37 +273,31 @@ onMounted(() => {
 
 #### useThreeScene - Three.js 场景初始化
 
-自动化 Three.js 场景初始化，包含场景、相机、渲染器、控制器，并处理响应式尺寸调整。
+自动化 Three.js 场景初始化，包含场景、相机、渲染器、控制器，并处理响应式尺寸调整和自动清理。
 
 ```vue
 <script setup lang="ts">
-import { useThreeScene } from '@/composables/useThreeScene';
+import * as THREE from 'three';
 
 const containerRef = ref<HTMLDivElement>();
 
-onMounted(() => {
-  const { scene, camera, renderer, controls, cleanup } = useThreeScene(
-    containerRef.value!,
-    {
-      cameraPosition: [0, 20, 50],      // 可选，默认: [0, 20, 50]
-      cameraLookAt: [0, 0, 0],          // 可选，默认: [0, 0, 0]
-      showAxesHelper: true,             // 可选，默认: true
-      showGridHelper: true,             // 可选，默认: true
-      backgroundColor: 0x000000,        // 可选，默认: 0x000000
-      fov: 45                           // 可选，默认: 45
-    }
-  );
-
-  // 添加自定义对象到场景
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
-
-  // 组件卸载时清理资源
-  onUnmounted(() => {
-    cleanup();
-  });
+// 在 setup 顶层调用，无需在 onMounted 中
+useThreeScene(containerRef, {
+  cameraPosition: [0, 20, 50],      // 可选，默认: [0, 20, 50]
+  cameraLookAt: [0, 0, 0],          // 可选，默认: [0, 0, 0]
+  showAxesHelper: true,             // 可选，默认: true
+  showGridHelper: true,             // 可选，默认: true
+  backgroundColor: 0x000000,        // 可选，默认: 0x000000
+  fov: 45,                          // 可选，默认: 45
+  
+  // 场景初始化完成后的回调
+  onReady: ({ scene, camera, renderer, controls }) => {
+    // 在这里添加自定义对象到场景
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+  }
 });
 </script>
 
@@ -313,7 +307,7 @@ onMounted(() => {
 ```
 
 **参数**:
-- `container` (必填): HTMLElement，用于挂载渲染器
+- `containerRef` (必填): `Ref<HTMLElement | undefined | null>`，容器元素的响应式引用
 - `options` (可选): 配置对象
 
 **Options 配置**:
@@ -325,17 +319,19 @@ interface ThreeSceneOptions {
   showGridHelper?: boolean;                   // 显示网格
   backgroundColor?: number;                   // 背景颜色
   fov?: number;                               // 视场角
+  onReady?: (context: ThreeSceneContext) => void;  // 初始化完成回调
 }
 ```
 
 **返回值**:
 ```ts
 {
-  scene: THREE.Scene;              // 场景对象
-  camera: THREE.PerspectiveCamera; // 相机对象
-  renderer: THREE.WebGLRenderer;   // 渲染器对象
-  controls: OrbitControls;         // 轨道控制器
-  cleanup: () => void;             // 清理函数，必须在 onUnmounted 中调用
+  sceneRef: ShallowRef<THREE.Scene | null>;              // 场景对象 ref
+  cameraRef: ShallowRef<THREE.PerspectiveCamera | null>; // 相机对象 ref
+  rendererRef: ShallowRef<THREE.WebGLRenderer | null>;   // 渲染器对象 ref
+  controlsRef: ShallowRef<OrbitControls | null>;         // 轨道控制器 ref
+  cleanup: () => void;             // 手动清理函数（通常不需要，会自动清理）
+  render: () => void;              // 手动触发渲染一帧
 }
 ```
 
@@ -344,7 +340,8 @@ interface ThreeSceneOptions {
 - ✅ 自动处理容器尺寸变化（响应式）
 - ✅ 自动启用阻尼效果的轨道控制器
 - ✅ 可选显示坐标轴和网格辅助线
-- ⚠️ **必须调用 `cleanup()` 清理资源，避免内存泄漏**
+- ✅ **自动清理资源**，无需手动调用 cleanup
+- ✅ 支持 `onReady` 回调，在场景初始化后执行自定义逻辑
 
 ### 6. UnoCSS 图标系统
 

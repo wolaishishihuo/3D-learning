@@ -11,20 +11,16 @@
 <script setup lang="ts">
 const containerRef = ref<HTMLDivElement>();
 
-onMounted(() => {
-  if (!containerRef.value) return;
-
-  const { scene: _scene, cleanup } = useThreeScene(containerRef.value, {
-    cameraPosition: [0, 0, 5],
-    showGridHelper: false,
-    showAxesHelper: false,
-    backgroundColor: 0x000000,
-    fov: 75
-  });
-
-  // TODO: 无限时空隧道 UV 动画代码
-
-  onUnmounted(cleanup);
+useThreeScene(containerRef, {
+  cameraPosition: [0, 0, 5],
+  showGridHelper: false,
+  showAxesHelper: false,
+  backgroundColor: 0x000000,
+  fov: 75,
+  onReady: ({ scene }) => {
+    // TODO: 无限时空隧道 UV 动画代码
+    console.log('Scene ready:', scene);
+  }
 });
 </script>
 

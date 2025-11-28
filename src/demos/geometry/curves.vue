@@ -1,33 +1,18 @@
 <script setup lang="ts">
 import * as THREE from 'three';
-import { useThreeScene } from '@/composables/useThreeScene';
 import SceneCard from '@/components/SceneCard/index.vue';
-
-const sceneCardRefs = ref<InstanceType<typeof SceneCard>[]>([]);
-const cleanupFns: (() => void)[] = [];
 
 // 定义5种曲线的配置
 const demos = [
   {
     title: 'EllipseCurve (椭圆曲线)',
     create: () => {
-      // 椭圆曲线: aX, aY, xRadius, yRadius, aStartAngle, aEndAngle, aClockwise, aRotation
-      return new THREE.EllipseCurve(
-        0,
-        0, // ax, aY
-        10,
-        5, // xRadius, yRadius
-        0,
-        2 * Math.PI, // aStartAngle, aEndAngle
-        false, // aClockwise
-        0 // aRotation
-      );
+      return new THREE.EllipseCurve(0, 0, 10, 5, 0, 2 * Math.PI, false, 0);
     }
   },
   {
     title: 'SplineCurve (样条曲线 2D)',
     create: () => {
-      // 2D 样条曲线，通过一系列点
       return new THREE.SplineCurve([
         new THREE.Vector2(-10, 0),
         new THREE.Vector2(-5, 5),
@@ -40,38 +25,29 @@ const demos = [
   {
     title: 'QuadraticBezierCurve (二次贝塞尔 2D)',
     create: () => {
-      // 二次贝塞尔: 起点，控制点，终点
       return new THREE.QuadraticBezierCurve(
-        new THREE.Vector2(-10, 0), // start
-        new THREE.Vector2(0, 15), // control
-        new THREE.Vector2(10, 0) // end
+        new THREE.Vector2(-10, 0),
+        new THREE.Vector2(0, 15),
+        new THREE.Vector2(10, 0)
       );
     }
   },
   {
     title: 'CubicBezierCurve3 (三次贝塞尔 3D)',
     create: () => {
-      // 三次贝塞尔 3D: 起点，控制点1，控制点2，终点
       return new THREE.CubicBezierCurve3(
-        new THREE.Vector3(-10, 0, 0), // start
-        new THREE.Vector3(-5, 15, 0), // control 1
-        new THREE.Vector3(20, 15, 0), // control 2
-        new THREE.Vector3(10, 0, 0) // end
+        new THREE.Vector3(-10, 0, 0),
+        new THREE.Vector3(-5, 15, 0),
+        new THREE.Vector3(20, 15, 0),
+        new THREE.Vector3(10, 0, 0)
       );
     }
   },
   {
     title: 'CurvePath (组合路径)',
     create: () => {
-      // 组合多个路径
       const path = new THREE.CurvePath<THREE.Vector3>();
-
-      // 添加线段
       path.add(new THREE.LineCurve3(new THREE.Vector3(-10, -10, 0), new THREE.Vector3(-10, 10, 0)));
-
-      // 添加半圆
-      // 注意：CurvePath通常用于2D，但Three.js中CurvePath<T>是泛型。
-      // 这里我们简单演示组合一段 3D 曲线
       path.add(
         new THREE.QuadraticBezierCurve3(
           new THREE.Vector3(-10, 10, 0),
@@ -79,41 +55,34 @@ const demos = [
           new THREE.Vector3(10, 10, 0)
         )
       );
-
       path.add(new THREE.LineCurve3(new THREE.Vector3(10, 10, 0), new THREE.Vector3(10, -10, 0)));
-
       return path;
     }
   }
 ];
 
-onMounted(() => {
-  sceneCardRefs.value.forEach((cardRef: InstanceType<typeof SceneCard>, index: number) => {
-    const container = cardRef?.container;
-    if (!container) return;
+// 为每个 SceneCard 创建独立的 ref
+const sceneCardRefs = demos.map(() => ref<InstanceType<typeof SceneCard>>());
 
-    const { scene, cleanup } = useThreeScene(container);
-    cleanupFns.push(cleanup);
+// 为每个场景创建 useThreeScene
+demos.forEach((demo, index) => {
+  const containerRef = computed(() => sceneCardRefs[index].value?.container);
 
-    const demo = demos[index];
-    const curve = demo.create();
+  useThreeScene(containerRef, {
+    onReady: ({ scene }) => {
+      const curve = demo.create();
+      const points = curve.getPoints(50);
 
-    // 生成点并创建几何体
-    const points = curve.getPoints(50);
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const material = new THREE.LineBasicMaterial({
+        color: 0xff0000,
+        linewidth: 2
+      });
 
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    const material = new THREE.LineBasicMaterial({
-      color: 0xff0000,
-      linewidth: 2
-    });
-
-    const curveObject = new THREE.Line(geometry, material);
-    scene.add(curveObject);
+      const curveObject = new THREE.Line(geometry, material);
+      scene.add(curveObject);
+    }
   });
-});
-
-onUnmounted(() => {
-  cleanupFns.forEach(fn => fn());
 });
 </script>
 
@@ -124,7 +93,7 @@ onUnmounted(() => {
     <SceneCard
       v-for="(item, index) in demos"
       :key="index"
-      ref="sceneCardRefs"
+      :ref="el => (sceneCardRefs[index].value = el as InstanceType<typeof SceneCard>)"
       :title="item.title"
       height="400px"
     />
