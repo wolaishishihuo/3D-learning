@@ -113,7 +113,7 @@ export const useThreeScene = (
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(backgroundColor);
 
-    const camera = new THREE.PerspectiveCamera(fov, width / height, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(fov, width / height, 1, 10000);
     camera.position.set(...cameraPosition);
     camera.lookAt(...cameraLookAt);
 
