@@ -159,10 +159,10 @@ path.add(new THREE.LineCurve3(
 </script>
 
 <template>
-  <div class="demo-scene">
+  <div class="flex flex-col gap-6">
     <!-- 场景展示 -->
     <div
-      class="mx-auto grid grid-cols-[repeat(auto-fit,minmax(500px,1fr))] gap-6 p-6 max-md:grid-cols-1 max-md:gap-4 max-md:p-4"
+      class="grid grid-cols-[repeat(auto-fit,minmax(500px,1fr))] gap-6 max-md:grid-cols-1 max-md:gap-4"
     >
       <CurveItem
         v-for="(item, index) in demos"

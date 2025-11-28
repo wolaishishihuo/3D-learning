@@ -16,7 +16,7 @@
       class="background-rays"
     />
     <!-- 顶部导航栏 -->
-    <header class="layout-header">
+    <header class="layout-header" :class="{ 'is-scrolled': isScrolled }">
       <AButton type="text" class="back-btn" @click="goBack">
         <span class="back-icon">←</span>
         <span>Back</span>
@@ -32,7 +32,7 @@
     </header>
 
     <!-- 主内容区域 -->
-    <main class="layout-main">
+    <main ref="mainRef" class="layout-main" @scroll="handleScroll">
       <slot />
     </main>
   </div>
@@ -55,6 +55,14 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const router = useRouter();
+const mainRef = ref<HTMLElement>();
+const isScrolled = ref(false);
+
+const handleScroll = () => {
+  if (mainRef.value) {
+    isScrolled.value = mainRef.value.scrollTop > 0;
+  }
+};
 
 const levelColor = computed(() => {
   switch (props.level) {
@@ -77,27 +85,40 @@ const goBack = () => {
 <style scoped lang="scss">
 .demo-layout {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
   background: #0a0a0a;
   overflow: hidden;
 }
 
 .background-rays {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 0;
   opacity: 0.6;
+  pointer-events: none;
 }
 
 .layout-header {
-  position: relative;
-  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
   gap: 24px;
   padding: 16px 24px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
-  backdrop-filter: blur(8px);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.layout-header.is-scrolled {
+  background-image: radial-gradient(transparent 1px, rgba(10, 10, 10, 0.9) 1px);
+  background-size: 4px 4px;
+  backdrop-filter: saturate(50%) blur(4px);
+  -webkit-backdrop-filter: saturate(50%) blur(4px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .back-btn {
@@ -144,6 +165,9 @@ const goBack = () => {
 .layout-main {
   position: relative;
   z-index: 5;
+  height: 100%;
   padding: 24px;
+  padding-top: 80px;
+  overflow-x: hidden;
 }
 </style>
