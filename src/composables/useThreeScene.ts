@@ -10,6 +10,13 @@ export interface ThreeSceneContext {
   controls: OrbitControls;
 }
 
+export interface AnimateContext extends ThreeSceneContext {
+  /** 距离上一帧的时间间隔（秒） */
+  delta: number;
+  /** 从动画开始到现在的总时间（秒） */
+  elapsed: number;
+}
+
 export interface ThreeSceneOptions {
   cameraPosition?: [number, number, number];
   cameraLookAt?: [number, number, number];
@@ -19,6 +26,8 @@ export interface ThreeSceneOptions {
   fov?: number;
   /** 场景初始化完成后的回调 */
   onReady?: (context: ThreeSceneContext) => void;
+  /** 每帧动画回调（在 controls.update 和 render 之前调用） */
+  onAnimate?: (context: AnimateContext) => void;
 }
 
 export interface ThreeSceneReturn {
@@ -41,12 +50,17 @@ export interface ThreeSceneReturn {
  * @example
  * ```ts
  * const containerRef = ref<HTMLElement>();
+ * let cube: THREE.Mesh;
  *
  * useThreeScene(containerRef, {
  *   cameraPosition: [100, 100, 100],
  *   onReady: ({ scene }) => {
- *     const cube = new THREE.Mesh(geometry, material);
+ *     cube = new THREE.Mesh(geometry, material);
  *     scene.add(cube);
+ *   },
+ *   onAnimate: ({ delta, elapsed }) => {
+ *     // delta: 帧间隔（秒），elapsed: 总时间（秒）
+ *     cube.rotation.y += delta;
  *   }
  * });
  * ```
@@ -62,7 +76,8 @@ export const useThreeScene = (
     showGridHelper = true,
     backgroundColor = 0x000000,
     fov = 45,
-    onReady
+    onReady,
+    onAnimate
   } = options;
 
   // 使用 shallowRef 避免深度响应式代理 Three.js 对象
@@ -143,6 +158,9 @@ export const useThreeScene = (
     // 调用 onReady 回调
     onReady?.({ scene, camera, renderer, controls });
 
+    // 创建时钟用于计算 delta 和 elapsed
+    const clock = new THREE.Clock();
+
     // 响应容器尺寸变化
     const { stop } = useResizeObserver(container, entries => {
       const entry = entries[0];
@@ -158,6 +176,14 @@ export const useThreeScene = (
     // 渲染循环
     const animate = () => {
       animationId = requestAnimationFrame(animate);
+
+      // 计算时间
+      const delta = clock.getDelta();
+      const elapsed = clock.getElapsedTime();
+
+      // 调用用户的动画回调
+      onAnimate?.({ scene, camera, renderer, controls, delta, elapsed });
+
       controls.update();
       renderer.render(scene, camera);
     };
