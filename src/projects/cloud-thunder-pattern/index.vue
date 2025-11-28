@@ -285,11 +285,3 @@ useThreeScene(containerRef, {
     <div ref="containerRef" class="h-full w-full"></div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.project-container {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-</style>
