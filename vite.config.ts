@@ -14,6 +14,7 @@ export default defineConfig({
     UnoCSS(),
     AutoImport({
       imports: ['vue', 'vue-router', 'pinia'],
+      dirs: ['src/composables'],
       dts: 'types/auto-imports.d.ts',
       eslintrc: {
         enabled: true,

@@ -24,5 +24,23 @@ export const projects: ProjectConfig[] = [
     name: '实战: 云雷纹',
     description: '实战: 云雷纹',
     icon: '⚡'
+  },
+  {
+    id: 'tunnel-shuttle',
+    name: '实战: 隧道穿梭',
+    description: '使用 Three.js 实现隧道穿梭效果',
+    icon: '🚇'
+  },
+  {
+    id: 'infinite-tunnel',
+    name: 'UV 动画实战: 无限时空隧道',
+    description: '使用纹理动画实现无限时空隧道效果',
+    icon: '🌀'
+  },
+  {
+    id: 'build-house',
+    name: '实战: 盖房子',
+    description: '使用几何体组合构建房屋模型',
+    icon: '🏠'
   }
 ];

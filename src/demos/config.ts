@@ -44,6 +44,15 @@ const basicsDemos: DemoConfig[] = [
     level: '入门',
     icon: '🔍',
     component: () => import('./basics/data-gui.vue')
+  },
+  {
+    id: 'scene-traverse',
+    name: '场景遍历和世界坐标',
+    description: '学习场景遍历和世界坐标的使用',
+    category: 'basics',
+    level: '进阶',
+    icon: '🌍',
+    component: () => import('./basics/scene-traverse.vue')
   }
 ];
 
@@ -86,6 +95,15 @@ const geometryDemos: DemoConfig[] = [
     level: '进阶',
     icon: '📈',
     component: () => import('./geometry/curves.vue')
+  },
+  {
+    id: 'procedural-geometry',
+    name: '按照规律生成各种几何体',
+    description: '学习按照规律生成各种几何体的方法',
+    category: 'geometry',
+    level: '进阶',
+    icon: '🔷',
+    component: () => import('./geometry/procedural-geometry.vue')
   }
 ];
 
@@ -128,6 +146,15 @@ const lightDemos: DemoConfig[] = [
     level: '入门',
     icon: '💡',
     component: () => import('./light/basic-light.vue')
+  },
+  {
+    id: 'lights-helpers',
+    name: '各种灯光和常用 Helper',
+    description: '学习各种灯光类型和常用的 Helper 辅助工具',
+    category: 'light',
+    level: '进阶',
+    icon: '💡',
+    component: () => import('./light/lights-helpers.vue')
   }
 ];
 

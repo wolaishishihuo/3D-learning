@@ -1,0 +1,123 @@
+---
+description: 3D-learning 项目 Demo/Project 文件生成规范
+globs: src/demos/**/*.vue, src/projects/**/*.vue
+alwaysApply: false
+---
+
+# Demo/Project 文件生成规范
+
+在 3D-learning 项目中生成 Demo 或 Project 文件时，必须遵循以下规范：
+
+## Demo 文件必须使用的公共组件和函数
+
+1. **useThreeScene** composable 初始化场景（自动处理场景、相机、渲染器、控制器、响应式尺寸、cleanup）
+2. **SceneCard** 组件包裹场景容器（提供全屏功能）
+3. **Summary** + **SummaryItem** 组件展示知识总结
+4. **CodeBlock** 组件展示关键代码片段
+5. **Code** 组件高亮 API 名称
+
+## Demo 模板结构
+
+```vue
+<script setup lang="ts">
+import * as THREE from 'three';
+import type { CodeSnippet } from '@/components/CodeBlock/index.vue';
+
+const sceneCardRef = ref();
+
+const codeSnippets: CodeSnippet[] = [
+  {
+    title: '代码片段标题',
+    code: `// 代码内容`,
+    language: 'typescript'
+  }
+];
+
+onMounted(() => {
+  if (!sceneCardRef.value?.container) return;
+
+  const { scene: _scene, cleanup } = useThreeScene(sceneCardRef.value.container, {
+    cameraPosition: [100, 100, 100],
+    showGridHelper: true,
+    showAxesHelper: true
+  });
+
+  // TODO: 添加场景内容
+  // 使用时将 _scene 改为 scene
+
+  onUnmounted(cleanup);
+});
+</script>
+
+<template>
+  <div class="demo-scene flex flex-col gap-6">
+    <SceneCard ref="sceneCardRef" title="场景标题" height="500px" />
+
+    <Summary title="知识点总结">
+      <SummaryItem title="知识点">描述 <Code>API</Code></SummaryItem>
+      <template #tip>
+        <strong>提示：</strong>补充说明
+      </template>
+    </Summary>
+
+    <CodeBlock title="关键代码" :snippets="codeSnippets" />
+  </div>
+</template>
+
+<style lang="scss">
+@use '@/demos/index.scss';
+</style>
+```
+
+## Project 模板结构
+
+```vue
+<template>
+  <div class="project-container relative">
+    <div class="absolute left-0 top-0 z-10 p-4">
+      <h1 class="text-2xl font-bold text-white">项目标题</h1>
+      <p class="text-sm text-gray-500">项目描述</p>
+    </div>
+    <div ref="containerRef" class="canvas-container"></div>
+  </div>
+</template>
+
+<script setup lang="ts">
+const containerRef = ref<HTMLDivElement>();
+
+onMounted(() => {
+  if (!containerRef.value) return;
+
+  const { scene: _scene, cleanup } = useThreeScene(containerRef.value, {
+    cameraPosition: [100, 100, 100],
+    showGridHelper: true,
+    showAxesHelper: true
+  });
+
+  // TODO: 添加场景内容
+  // 使用时将 _scene 改为 scene
+
+  onUnmounted(cleanup);
+});
+</script>
+
+<style scoped lang="scss">
+.project-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.canvas-container {
+  width: 100%;
+  height: 100%;
+}
+</style>
+```
+
+## 重要注意事项
+
+1. **课程分段合并**：课程列表中的（一）（二）分段应合并为同一个文件/项目
+2. **配置更新**：新增 Demo 需更新 `src/demos/config.ts`，新增 Project 需同时更新 `src/projects/config.ts` 和 `src/router/index.ts`
+3. **cleanup 必须调用**：在 `onUnmounted` 中必须调用 `cleanup()` 清理资源，避免内存泄漏
+4. **自动导入**：`ref`、`onMounted`、`onUnmounted`、`useThreeScene`、`SceneCard`、`Summary`、`SummaryItem`、`CodeBlock`、`Code` 等均已配置自动导入，无需手动 import
