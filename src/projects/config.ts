@@ -13,12 +13,12 @@ export const projects: ProjectConfig[] = [
     description: '使用 BufferGeometry 生成随机山脉地形',
     icon: '🏔️'
   },
-  {
-    id: 'urban-management',
-    name: '城市管理',
-    description: '城市管理',
-    icon: '🏙️'
-  },
+  // {
+  //   id: 'urban-management',
+  //   name: '城市管理',
+  //   description: '城市管理',
+  //   icon: '🏙️'
+  // },
   {
     id: 'cloud-thunder-pattern',
     name: '实战: 云雷纹',
