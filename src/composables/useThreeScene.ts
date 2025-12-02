@@ -7,7 +7,6 @@ export interface ThreeSceneContext {
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
   renderer: THREE.WebGLRenderer;
-  controls: OrbitControls;
 }
 
 export interface AnimateContext extends ThreeSceneContext {
@@ -22,6 +21,7 @@ export interface ThreeSceneOptions {
   cameraLookAt?: [number, number, number];
   showAxesHelper?: boolean;
   showGridHelper?: boolean;
+  controlsEnabled?: boolean;
   backgroundColor?: number;
   fov?: number;
   /** 场景初始化完成后的回调 */
@@ -34,7 +34,6 @@ export interface ThreeSceneReturn {
   sceneRef: ShallowRef<THREE.Scene | null>;
   cameraRef: ShallowRef<THREE.PerspectiveCamera | null>;
   rendererRef: ShallowRef<THREE.WebGLRenderer | null>;
-  controlsRef: ShallowRef<OrbitControls | null>;
   /** 手动清理资源（传入 Ref 时会自动清理，通常不需要手动调用） */
   cleanup: () => void;
   /** 手动触发渲染一帧 */
@@ -79,6 +78,7 @@ export const useThreeScene = (
     showGridHelper = true,
     backgroundColor = 0x000000,
     fov = 45,
+    controlsEnabled = true,
     onReady,
     onAnimate
   } = options;
@@ -141,8 +141,12 @@ export const useThreeScene = (
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
+    // 根据 controlsEnabled 决定是否创建控制器
+    let controls: OrbitControls | null = null;
+    if (controlsEnabled) {
+      controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+    }
 
     // 辅助网格和坐标轴
     if (showAxesHelper) {
@@ -159,7 +163,7 @@ export const useThreeScene = (
     controlsRef.value = controls;
 
     // 调用 onReady 回调
-    onReady?.({ scene, camera, renderer, controls });
+    onReady?.({ scene, camera, renderer });
 
     // 创建时钟用于计算 delta 和 elapsed
     const clock = new THREE.Clock();
@@ -185,9 +189,12 @@ export const useThreeScene = (
       const elapsed = clock.getElapsedTime();
 
       // 调用用户的动画回调
-      onAnimate?.({ scene, camera, renderer, controls, delta, elapsed });
+      onAnimate?.({ scene, camera, renderer, delta, elapsed });
 
-      controls.update();
+      // 更新控制器（如果启用）
+      if (controls) {
+        controls.update();
+      }
       renderer.render(scene, camera);
     };
     animate();
@@ -209,5 +216,5 @@ export const useThreeScene = (
   // 组件卸载时自动清理
   onUnmounted(cleanup);
 
-  return { sceneRef, cameraRef, rendererRef, controlsRef, cleanup, render };
+  return { sceneRef, cameraRef, rendererRef, cleanup, render };
 };
