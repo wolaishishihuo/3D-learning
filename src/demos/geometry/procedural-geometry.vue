@@ -83,7 +83,7 @@ const geometry = new THREE.ExtrudeGeometry(shape, {
     language: 'typescript'
   }
 ];
-
+let gui: GUI | null = null;
 const demos = [
   {
     title: 'LatheGeometry ',
@@ -132,7 +132,7 @@ const demos = [
         radius: 2,
         radialSegments: 8
       };
-      const gui = new GUI({ title: 'TubeGeometry Options' });
+      gui = new GUI({ title: 'TubeGeometry Options' });
 
       function updateTubeGeometry() {
         mesh.geometry = new THREE.TubeGeometry(
@@ -228,6 +228,12 @@ const demos = [
     }
   }
 ];
+
+onUnmounted(() => {
+  if (gui) {
+    gui.destroy();
+  }
+});
 </script>
 
 <template>
