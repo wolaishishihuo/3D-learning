@@ -54,13 +54,16 @@ export interface ThreeSceneReturn {
  *
  * useThreeScene(containerRef, {
  *   cameraPosition: [100, 100, 100],
- *   onReady: ({ scene }) => {
- *     cube = new THREE.Mesh(geometry, material);
- *     scene.add(cube);
+ *   cameraLookAt: [0, 0, 0],
+ *   showAxesHelper: true,
+ *   showGridHelper: true,
+ *   backgroundColor: 0x000000,
+ *   fov: 45,
+ *   onReady: (context) => {
+ *     console.log(context);
  *   },
- *   onAnimate: ({ delta, elapsed }) => {
- *     // delta: 帧间隔（秒），elapsed: 总时间（秒）
- *     cube.rotation.y += delta;
+ *   onAnimate: (context) => {
+ *     console.log(context);
  *   }
  * });
  * ```
