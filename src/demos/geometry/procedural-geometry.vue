@@ -36,9 +36,6 @@ for (let i = 0; i < count; i++) {
 const containerRef = computed(() => sceneCardRef.value?.container);
 
 useThreeScene(containerRef, {
-  cameraPosition: [100, 100, 100],
-  showGridHelper: true,
-  showAxesHelper: true,
   onReady: ({ scene }) => {
     // TODO: 按照规律生成各种几何体的代码
     console.log('Scene ready:', scene);
