@@ -23,7 +23,8 @@ export const categories: Category[] = [
   { id: 'geometry', name: '几何', icon: '🔷' },
   { id: 'material', name: '材质', icon: '🎨' },
   { id: 'light', name: '光照', icon: '💡' },
-  { id: 'animation', name: '动画', icon: '🔄' }
+  { id: 'animation', name: '动画', icon: '🔄' },
+  { id: 'model', name: '模型', icon: '🎭' }
 ];
 
 const basicsDemos: DemoConfig[] = [
@@ -134,6 +135,15 @@ const materialDemos: DemoConfig[] = [
     level: '进阶',
     icon: '🎨',
     component: () => import('./material/uv-coordinates-animation.vue')
+  },
+  {
+    id: 'vertex-normals-gradient',
+    name: '顶点法线、反射和颜色渐变',
+    description: '学习顶点法线、反射原理和自定义顶点颜色实现渐变',
+    category: 'material',
+    level: '进阶',
+    icon: '🎨',
+    component: () => import('./material/vertex-normals-gradient.vue')
   }
 ];
 
@@ -170,13 +180,26 @@ const animationDemos: DemoConfig[] = [
   }
 ];
 
+const modelDemos: DemoConfig[] = [
+  {
+    id: 'model-loading-optimization',
+    name: '模型加载与优化',
+    description: '学习如何加载外部模型、GLTF 文件结构、gltf-pipeline 工具和 Draco 压缩',
+    category: 'model',
+    level: '进阶',
+    icon: '🎭',
+    component: () => import('./model/model-loading-optimization.vue')
+  }
+];
+
 export const demos: DemoConfig[] = [
   ...basicsDemos,
   ...cameraDemos,
   ...geometryDemos,
   ...materialDemos,
   ...lightDemos,
-  ...animationDemos
+  ...animationDemos,
+  ...modelDemos
 ];
 
 export function getDemoById(id: string): DemoConfig | undefined {

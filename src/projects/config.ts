@@ -42,5 +42,11 @@ export const projects: ProjectConfig[] = [
     name: '实战: 盖房子',
     description: '使用几何体组合构建房屋模型',
     icon: '🏠'
+  },
+  {
+    id: 'color-gradient-chart',
+    name: '实战: 颜色渐变柱状图',
+    description: '使用顶点颜色实现数据可视化的颜色渐变柱状图',
+    icon: '📊'
   }
 ];

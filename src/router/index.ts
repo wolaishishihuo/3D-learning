@@ -52,6 +52,11 @@ const routes: RouteRecordRaw[] = [
     path: '/projects/build-house',
     name: 'BuildHouse',
     component: () => import('@/projects/build-house/index.vue')
+  },
+  {
+    path: '/projects/color-gradient-chart',
+    name: 'ColorGradientChart',
+    component: () => import('@/projects/color-gradient-chart/index.vue')
   }
 ];
 
