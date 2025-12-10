@@ -12,7 +12,6 @@ const createFoundation = () => {
   foundation.translateY(10);
   return foundation;
 };
-
 // 创建墙壁 / 窗户
 const createWall = () => {
   const shape = new THREE.Shape();
