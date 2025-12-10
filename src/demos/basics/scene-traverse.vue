@@ -121,7 +121,7 @@ useThreeScene(containerRef, {
 </script>
 
 <template>
-  <div class="demo-scene flex flex-col gap-6">
+  <div class="flex flex-col gap-6">
     <SceneCard ref="sceneCardRef" title="场景遍历和世界坐标" height="600px" />
 
     <Summary title="知识点总结">
@@ -154,7 +154,3 @@ useThreeScene(containerRef, {
     <CodeBlock title="关键代码" :snippets="codeSnippets" />
   </div>
 </template>
-
-<style lang="scss">
-@use '@/demos/index.scss';
-</style>
