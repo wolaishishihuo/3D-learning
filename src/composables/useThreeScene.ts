@@ -25,7 +25,6 @@ export interface ThreeSceneOptions {
   showGridHelper?: boolean;
   gridHelperSize?: number;
   controlsEnabled?: boolean;
-  backgroundColor?: number;
   fov?: number;
   /** 场景初始化完成后的回调 */
   onReady?: (context: ThreeSceneContext) => void;
@@ -81,7 +80,6 @@ export const useThreeScene = (
     axesHelperSize = 10,
     showGridHelper = false,
     gridHelperSize = 50,
-    backgroundColor = 0x000000,
     fov = 45,
     controlsEnabled = true,
     onReady,
@@ -134,13 +132,13 @@ export const useThreeScene = (
     if (width === 0 || height === 0) return;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(backgroundColor);
 
-    const camera = new THREE.PerspectiveCamera(fov, width / height, 1, 10000);
+    const camera = new THREE.PerspectiveCamera(fov, width / height, 1, 100000);
     camera.position.set(...cameraPosition);
     camera.lookAt(...cameraLookAt);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true });
+
     renderer.setSize(width, height);
     // 限制像素比，优化高分屏性能
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
