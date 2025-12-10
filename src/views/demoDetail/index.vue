@@ -1,13 +1,3 @@
-<template>
-  <Layout
-    :title="demoConfig?.name"
-    :description="demoConfig?.description"
-    :level="demoConfig?.level"
-  >
-    <component :is="DemoComponent" v-if="DemoComponent" />
-  </Layout>
-</template>
-
 <script setup lang="ts">
 import type { Component } from 'vue';
 import { getDemoById } from '@/demos/config';
@@ -38,3 +28,13 @@ const loadDemo = async () => {
 
 watch(() => route.params.id, loadDemo, { immediate: true });
 </script>
+
+<template>
+  <Layout
+    :title="demoConfig?.name"
+    :description="demoConfig?.description"
+    :level="demoConfig?.level"
+  >
+    <component :is="DemoComponent" v-if="DemoComponent" />
+  </Layout>
+</template>

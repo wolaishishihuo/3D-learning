@@ -1,15 +1,3 @@
-<template>
-  <div class="project-container relative">
-    <div class="absolute top-0 left-0 p-4">
-      <h1 class="text-2xl font-bold text-white">Random Terrain</h1>
-      <p class="text-sm text-gray-500">
-        使用 Three.js 和 Simplex Noise 算法生成动态随机地形，结合正弦波函数实现平滑的波浪动画效果。
-      </p>
-    </div>
-    <div ref="containerRef" class="canvas-container"></div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -88,3 +76,15 @@ onMounted(() => {
   initScene();
 });
 </script>
+
+<template>
+  <div class="project-container relative">
+    <div class="absolute top-0 left-0 p-4">
+      <h1 class="text-2xl font-bold text-white">Random Terrain</h1>
+      <p class="text-sm text-gray-500">
+        使用 Three.js 和 Simplex Noise 算法生成动态随机地形，结合正弦波函数实现平滑的波浪动画效果。
+      </p>
+    </div>
+    <div ref="containerRef" class="canvas-container"></div>
+  </div>
+</template>

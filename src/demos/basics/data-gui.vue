@@ -1,10 +1,3 @@
-<template>
-  <div class="demo-scene space-y-4">
-    <div ref="containerRef" class="canvas-container"></div>
-    <div class="text-white text-3xl font-bold">test5Value: {{ test5Value }}</div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -131,6 +124,13 @@ onUnmounted(() => {
   gui?.destroy();
 });
 </script>
+
+<template>
+  <div class="demo-scene space-y-4">
+    <div ref="containerRef" class="canvas-container"></div>
+    <div class="text-white text-3xl font-bold">test5Value: {{ test5Value }}</div>
+  </div>
+</template>
 
 <style lang="scss">
 @use '@/demos/index.scss';

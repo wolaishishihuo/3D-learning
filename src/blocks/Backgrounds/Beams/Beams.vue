@@ -2,10 +2,6 @@
 	Installed from https://vue-bits.dev/ui/
 -->
 
-<template>
-  <div ref="containerRef" class="beams-container" />
-</template>
-
 <script setup lang="ts">
 import { onMounted, onUnmounted, watch, computed, useTemplateRef } from 'vue';
 import * as THREE from 'three';
@@ -448,6 +444,10 @@ onUnmounted(() => {
   cleanup();
 });
 </script>
+
+<template>
+  <div ref="containerRef" class="beams-container" />
+</template>
 
 <style scoped>
 .beams-container {

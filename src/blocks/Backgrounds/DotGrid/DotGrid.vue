@@ -2,17 +2,6 @@
 	Installed from https://vue-bits.dev/ui/
 -->
 
-<template>
-  <section
-    :class="`flex items-center justify-center h-full w-full relative ${className}`"
-    :style="style"
-  >
-    <div ref="wrapperRef" class="w-full h-full relative">
-      <canvas ref="canvasRef" class="absolute inset-0 w-full h-full pointer-events-none" />
-    </div>
-  </section>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, watch, nextTick, useTemplateRef } from 'vue';
 import { gsap } from 'gsap';
@@ -320,3 +309,14 @@ watch([() => props.proximity, () => props.baseColor, activeRgb, baseRgb, circleP
   }
 });
 </script>
+
+<template>
+  <section
+    :class="`flex items-center justify-center h-full w-full relative ${className}`"
+    :style="style"
+  >
+    <div ref="wrapperRef" class="w-full h-full relative">
+      <canvas ref="canvasRef" class="absolute inset-0 w-full h-full pointer-events-none" />
+    </div>
+  </section>
+</template>

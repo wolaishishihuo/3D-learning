@@ -26,6 +26,12 @@ export default [
   },
   {
     rules: {
+      'vue/block-order': [
+        'error',
+        {
+          order: ['script', 'template', 'style']
+        }
+      ],
       'vue/multi-word-component-names': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': [

@@ -1,19 +1,3 @@
-<template>
-  <div class="demo-scene">
-    <div ref="containerRef" class="canvas-container"></div>
-
-    <div class="text-white text-blod text-3xl">
-      fov：影响可视范围角度、离物体远近
-      <br />
-      aspect：可视范围宽高比，一般设置网页宽高比
-      <br />
-      near：近裁截面距离，一般保持默认值 0.1，当你需要截掉一些特别近的物体的时候，把它加大
-      <br />
-      far：远裁截面距离，如果有的物体被裁截掉看不到了，就需要调大 far 把它们包含进来
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -81,6 +65,22 @@ onUnmounted(() => {
   gui?.destroy();
 });
 </script>
+
+<template>
+  <div class="demo-scene">
+    <div ref="containerRef" class="canvas-container"></div>
+
+    <div class="text-white text-blod text-3xl">
+      fov：影响可视范围角度、离物体远近
+      <br />
+      aspect：可视范围宽高比，一般设置网页宽高比
+      <br />
+      near：近裁截面距离，一般保持默认值 0.1，当你需要截掉一些特别近的物体的时候，把它加大
+      <br />
+      far：远裁截面距离，如果有的物体被裁截掉看不到了，就需要调大 far 把它们包含进来
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 @use '@/demos/index.scss';

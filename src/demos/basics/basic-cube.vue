@@ -1,9 +1,3 @@
-<template>
-  <div class="demo-scene">
-    <div ref="containerRef" class="canvas-container"></div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -72,6 +66,12 @@ onUnmounted(() => {
   renderer?.dispose();
 });
 </script>
+
+<template>
+  <div class="demo-scene">
+    <div ref="containerRef" class="canvas-container"></div>
+  </div>
+</template>
 
 <style lang="scss">
 @use '@/demos/index.scss';

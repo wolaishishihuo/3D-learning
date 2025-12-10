@@ -1,43 +1,3 @@
-<template>
-  <div class="demo-layout">
-    <!-- 背景动画 -->
-    <DotGrid
-      :dot-size="5"
-      :gap="15"
-      base-color="#333333"
-      active-color="#27FF64"
-      :proximity="120"
-      :speed-trigger="100"
-      :shock-radius="250"
-      :shock-strength="5"
-      :max-speed="5000"
-      :resistance="750"
-      :return-duration="1.5"
-      class="background-rays"
-    />
-    <!-- 顶部导航栏 -->
-    <header class="layout-header" :class="{ 'is-scrolled': isScrolled }">
-      <AButton type="text" class="back-btn" @click="goBack">
-        <span class="back-icon">←</span>
-        <span>Back</span>
-      </AButton>
-      <div v-if="title" class="header-info">
-        <h1 class="layout-title">{{ title }}</h1>
-        <p v-if="description" class="layout-desc">{{ description }}</p>
-      </div>
-      <div class="header-actions">
-        <slot name="actions" />
-        <ATag v-if="level" :color="levelColor">{{ level }}</ATag>
-      </div>
-    </header>
-
-    <!-- 主内容区域 -->
-    <main ref="mainRef" class="layout-main" @scroll="handleScroll">
-      <slot />
-    </main>
-  </div>
-</template>
-
 <script setup lang="ts">
 import DotGrid from '@/blocks/Backgrounds/DotGrid/DotGrid.vue';
 
@@ -81,6 +41,46 @@ const goBack = () => {
   router.push('/demos');
 };
 </script>
+
+<template>
+  <div class="demo-layout">
+    <!-- 背景动画 -->
+    <DotGrid
+      :dot-size="5"
+      :gap="15"
+      base-color="#333333"
+      active-color="#27FF64"
+      :proximity="120"
+      :speed-trigger="100"
+      :shock-radius="250"
+      :shock-strength="5"
+      :max-speed="5000"
+      :resistance="750"
+      :return-duration="1.5"
+      class="background-rays"
+    />
+    <!-- 顶部导航栏 -->
+    <header class="layout-header" :class="{ 'is-scrolled': isScrolled }">
+      <AButton type="text" class="back-btn" @click="goBack">
+        <span class="back-icon">←</span>
+        <span>Back</span>
+      </AButton>
+      <div v-if="title" class="header-info">
+        <h1 class="layout-title">{{ title }}</h1>
+        <p v-if="description" class="layout-desc">{{ description }}</p>
+      </div>
+      <div class="header-actions">
+        <slot name="actions" />
+        <ATag v-if="level" :color="levelColor">{{ level }}</ATag>
+      </div>
+    </header>
+
+    <!-- 主内容区域 -->
+    <main ref="mainRef" class="layout-main" @scroll="handleScroll">
+      <slot />
+    </main>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .demo-layout {

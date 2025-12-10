@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import Beams from '@/blocks/Backgrounds/Beams/Beams.vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const goToDemos = () => {
+  router.push('/demos');
+};
+
+const goToProjects = () => {
+  router.push('/projects');
+};
+</script>
+
 <template>
   <div class="home-container">
     <!-- Background -->
@@ -36,21 +51,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import Beams from '@/blocks/Backgrounds/Beams/Beams.vue';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
-
-const goToDemos = () => {
-  router.push('/demos');
-};
-
-const goToProjects = () => {
-  router.push('/projects');
-};
-</script>
 
 <style scoped lang="scss">
 @use './index.scss';
