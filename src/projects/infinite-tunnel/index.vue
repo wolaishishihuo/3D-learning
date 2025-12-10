@@ -59,6 +59,10 @@ useThreeScene(containerRef, {
         H = 0;
       }
 
+      // setHSL: 设置颜色为HSL颜色
+      // H: 色调
+      // S: 饱和度
+      // L: 亮度
       (mesh.material as THREE.MeshBasicMaterial).color.setHSL(H, 1, 0.5);
       (mesh.material as THREE.MeshBasicMaterial).alphaMap!.offset.y = H;
       mesh.rotation.y += delta * 0.5;
