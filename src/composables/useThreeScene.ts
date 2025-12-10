@@ -21,7 +21,9 @@ export interface ThreeSceneOptions {
   cameraPosition?: [number, number, number];
   cameraLookAt?: [number, number, number];
   showAxesHelper?: boolean;
+  axesHelperSize?: number;
   showGridHelper?: boolean;
+  gridHelperSize?: number;
   controlsEnabled?: boolean;
   backgroundColor?: number;
   fov?: number;
@@ -76,7 +78,9 @@ export const useThreeScene = (
     cameraPosition = [0, 20, 50],
     cameraLookAt = [0, 0, 0],
     showAxesHelper = true,
-    showGridHelper = true,
+    axesHelperSize = 10,
+    showGridHelper = false,
+    gridHelperSize = 50,
     backgroundColor = 0x000000,
     fov = 45,
     controlsEnabled = true,
@@ -151,10 +155,10 @@ export const useThreeScene = (
 
     // 辅助网格和坐标轴
     if (showAxesHelper) {
-      scene.add(new THREE.AxesHelper(10));
+      scene.add(new THREE.AxesHelper(axesHelperSize));
     }
     if (showGridHelper) {
-      scene.add(new THREE.GridHelper(50, 50, 0x444444, 0x222222));
+      scene.add(new THREE.GridHelper(gridHelperSize, gridHelperSize, 0x444444, 0x222222));
     }
 
     // 赋值给 ref

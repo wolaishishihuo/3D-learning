@@ -10,7 +10,10 @@ import {
 } from 'unocss';
 
 export default defineConfig({
-  shortcuts: [['project-container', 'h-screen w-screen bg-#111111']],
+  shortcuts: [
+    ['project-container', 'h-screen w-screen bg-#111111'],
+    ['canvas-container', 'h-full w-full']
+  ],
   presets: [
     presetWind4({
       preflights: {
