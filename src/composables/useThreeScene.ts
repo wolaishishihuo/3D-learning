@@ -7,6 +7,7 @@ export interface ThreeSceneContext {
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
   renderer: THREE.WebGLRenderer;
+  controls: OrbitControls;
 }
 
 export interface AnimateContext extends ThreeSceneContext {
@@ -163,7 +164,7 @@ export const useThreeScene = (
     controlsRef.value = controls;
 
     // 调用 onReady 回调
-    onReady?.({ scene, camera, renderer });
+    onReady?.({ scene, camera, renderer, controls: controls as OrbitControls });
 
     // 创建时钟用于计算 delta 和 elapsed
     const clock = new THREE.Clock();
@@ -189,7 +190,7 @@ export const useThreeScene = (
       const elapsed = clock.getElapsedTime();
 
       // 调用用户的动画回调
-      onAnimate?.({ scene, camera, renderer, delta, elapsed });
+      onAnimate?.({ scene, camera, renderer, controls: controls as OrbitControls, delta, elapsed });
 
       // 更新控制器（如果启用）
       if (controls) {
