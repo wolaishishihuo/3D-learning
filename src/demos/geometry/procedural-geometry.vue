@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CodeSnippet } from '@/components/CodeBlock/index.vue';
-import ProceduralItem from './components/ProceduralItem.vue';
+import ScreenItem from '@/demos/components/ScreenItem.vue';
 import * as THREE from 'three';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 
@@ -83,11 +83,17 @@ const geometry = new THREE.ExtrudeGeometry(shape, {
     language: 'typescript'
   }
 ];
-let gui: GUI | null = null;
 const demos = [
   {
     title: 'LatheGeometry ',
-    create: () => {
+    create: (scene: THREE.Scene) => {
+      // 添加光照
+      const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+      scene.add(ambientLight);
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(0, 20, 50);
+      scene.add(directionalLight);
+
       const points = [
         new THREE.Vector2(0, 0),
         new THREE.Vector2(5, 6),
@@ -109,12 +115,21 @@ const demos = [
       const line = new THREE.Line(geometry2, material2);
       const pointsObj = new THREE.Points(geometry2, material2);
 
-      return mesh.add(line, pointsObj);
+      scene.add(mesh);
+      scene.add(line);
+      scene.add(pointsObj);
     }
   },
   {
     title: 'TubeGeometry 生成管道',
-    create: () => {
+    create: (scene: THREE.Scene) => {
+      // 添加光照
+      const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+      scene.add(ambientLight);
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(0, 20, 50);
+      scene.add(directionalLight);
+
       const p1 = new THREE.Vector3(-10, 0, 0);
       const p2 = new THREE.Vector3(5, 10, 0);
       const p3 = new THREE.Vector3(10, 0, 10);
@@ -132,19 +147,7 @@ const demos = [
         radius: 2,
         radialSegments: 8
       };
-      gui = new GUI({ title: 'TubeGeometry Options' });
-
-      function updateTubeGeometry() {
-        mesh.geometry = new THREE.TubeGeometry(
-          curve,
-          tubeOptions.tubularSegments,
-          tubeOptions.radius,
-          tubeOptions.radialSegments
-        );
-      }
-      gui.add(tubeOptions, 'tubularSegments').min(1).max(100).step(1).onChange(updateTubeGeometry);
-      gui.add(tubeOptions, 'radius').min(0.1).max(10).step(0.1).onChange(updateTubeGeometry);
-      gui.add(tubeOptions, 'radialSegments').min(1).max(100).step(1).onChange(updateTubeGeometry);
+      const gui = new GUI({ title: 'TubeGeometry Options' });
 
       const geometry = new THREE.TubeGeometry(
         curve,
@@ -160,6 +163,19 @@ const demos = [
 
       const mesh = new THREE.Mesh(geometry, material);
 
+      function updateTubeGeometry() {
+        mesh.geometry.dispose();
+        mesh.geometry = new THREE.TubeGeometry(
+          curve,
+          tubeOptions.tubularSegments,
+          tubeOptions.radius,
+          tubeOptions.radialSegments
+        );
+      }
+      gui.add(tubeOptions, 'tubularSegments').min(1).max(100).step(1).onChange(updateTubeGeometry);
+      gui.add(tubeOptions, 'radius').min(0.1).max(10).step(0.1).onChange(updateTubeGeometry);
+      gui.add(tubeOptions, 'radialSegments').min(1).max(100).step(1).onChange(updateTubeGeometry);
+
       const geometry2 = new THREE.BufferGeometry().setFromPoints([p1, p2, p3, p4]);
       const material2 = new THREE.PointsMaterial({
         color: new THREE.Color('blue'),
@@ -168,12 +184,21 @@ const demos = [
       const line = new THREE.Line(geometry2, material2);
       const pointsObj = new THREE.Points(geometry2, material2);
 
-      return mesh.add(line, pointsObj);
+      scene.add(mesh);
+      scene.add(line);
+      scene.add(pointsObj);
     }
   },
   {
     title: 'Shape + ShapeGeometry + Path',
-    create: () => {
+    create: (scene: THREE.Scene) => {
+      // 添加光照
+      const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+      scene.add(ambientLight);
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(0, 20, 50);
+      scene.add(directionalLight);
+
       const pointsArr = [
         new THREE.Vector2(10, 0),
         new THREE.Vector2(0, 0),
@@ -195,12 +220,19 @@ const demos = [
         side: THREE.DoubleSide // 双面渲染，确保能看到孔洞
       });
       const mesh = new THREE.Mesh(geometry, material);
-      return mesh;
+      scene.add(mesh);
     }
   },
   {
     title: 'Shape + ExtrudeGeometry',
-    create: () => {
+    create: (scene: THREE.Scene) => {
+      // 添加光照
+      const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+      scene.add(ambientLight);
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(0, 20, 50);
+      scene.add(directionalLight);
+
       const pointsArr = [
         new THREE.Vector2(10, 0),
         new THREE.Vector2(0, 0),
@@ -224,16 +256,10 @@ const demos = [
         side: THREE.DoubleSide
       });
       const mesh = new THREE.Mesh(geometry, material);
-      return mesh;
+      scene.add(mesh);
     }
   }
 ];
-
-onUnmounted(() => {
-  if (gui) {
-    gui.destroy();
-  }
-});
 </script>
 
 <template>
@@ -242,7 +268,7 @@ onUnmounted(() => {
     <div
       class="grid grid-cols-[repeat(auto-fit,minmax(500px,1fr))] gap-6 max-md:grid-cols-1 max-md:gap-4"
     >
-      <ProceduralItem
+      <ScreenItem
         v-for="(item, index) in demos"
         :key="index"
         :title="item.title"

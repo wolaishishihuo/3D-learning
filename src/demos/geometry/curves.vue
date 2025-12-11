@@ -1,47 +1,84 @@
 <script setup lang="ts">
 import * as THREE from 'three';
-import CurveItem from './components/CurveItem.vue';
+import ScreenItem from '@/demos/components/ScreenItem.vue';
 import type { CodeSnippet } from '@/components/CodeBlock/index.vue';
 
 // 定义5种曲线的配置
 const demos = [
   {
     title: 'EllipseCurve (椭圆曲线)',
-    create: () => new THREE.EllipseCurve(0, 0, 10, 10, 0, 2 * Math.PI, false, 0)
+    create: (scene: THREE.Scene) => {
+      const curve = new THREE.EllipseCurve(0, 0, 10, 10, 0, 2 * Math.PI, false, 0);
+      const points = curve.getPoints(50);
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const material = new THREE.LineBasicMaterial({
+        color: 0xff0000,
+        linewidth: 2
+      });
+      const curveObject = new THREE.Line(geometry, material);
+      scene.add(curveObject);
+    }
   },
   {
     title: 'SplineCurve (样条曲线 2D)',
-    create: () =>
-      new THREE.SplineCurve([
+    create: (scene: THREE.Scene) => {
+      const curve = new THREE.SplineCurve([
         new THREE.Vector2(-10, 0),
         new THREE.Vector2(-5, 5),
         new THREE.Vector2(0, 0),
         new THREE.Vector2(5, -5),
         new THREE.Vector2(10, 0)
-      ])
+      ]);
+      const points = curve.getPoints(50);
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const material = new THREE.LineBasicMaterial({
+        color: 0xff0000,
+        linewidth: 2
+      });
+      const curveObject = new THREE.Line(geometry, material);
+      scene.add(curveObject);
+    }
   },
   {
     title: 'QuadraticBezierCurve (二次贝塞尔 2D)',
-    create: () =>
-      new THREE.QuadraticBezierCurve(
+    create: (scene: THREE.Scene) => {
+      const curve = new THREE.QuadraticBezierCurve(
         new THREE.Vector2(-10, 0),
         new THREE.Vector2(0, 15),
         new THREE.Vector2(10, 0)
-      )
+      );
+      const points = curve.getPoints(50);
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const material = new THREE.LineBasicMaterial({
+        color: 0xff0000,
+        linewidth: 2
+      });
+      const curveObject = new THREE.Line(geometry, material);
+      scene.add(curveObject);
+    }
   },
   {
     title: 'CubicBezierCurve3 (三次贝塞尔 3D)',
-    create: () =>
-      new THREE.CubicBezierCurve3(
+    create: (scene: THREE.Scene) => {
+      const curve = new THREE.CubicBezierCurve3(
         new THREE.Vector3(-10, 0, 0),
         new THREE.Vector3(-5, 15, 0),
         new THREE.Vector3(20, 15, 0),
         new THREE.Vector3(10, 0, 0)
-      )
+      );
+      const points = curve.getPoints(50);
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const material = new THREE.LineBasicMaterial({
+        color: 0xff0000,
+        linewidth: 2
+      });
+      const curveObject = new THREE.Line(geometry, material);
+      scene.add(curveObject);
+    }
   },
   {
     title: 'CurvePath (组合路径)',
-    create: () => {
+    create: (scene: THREE.Scene) => {
       const path = new THREE.CurvePath<THREE.Vector3>();
       path.add(new THREE.LineCurve3(new THREE.Vector3(-10, -10, 0), new THREE.Vector3(-10, 10, 0)));
       path.add(
@@ -52,7 +89,14 @@ const demos = [
         )
       );
       path.add(new THREE.LineCurve3(new THREE.Vector3(10, 10, 0), new THREE.Vector3(10, -10, 0)));
-      return path;
+      const points = path.getPoints(50);
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const material = new THREE.LineBasicMaterial({
+        color: 0xff0000,
+        linewidth: 2
+      });
+      const curveObject = new THREE.Line(geometry, material);
+      scene.add(curveObject);
     }
   }
 ];
@@ -164,11 +208,11 @@ path.add(new THREE.LineCurve3(
     <div
       class="grid grid-cols-[repeat(auto-fit,minmax(500px,1fr))] gap-6 max-md:grid-cols-1 max-md:gap-4"
     >
-      <CurveItem
+      <ScreenItem
         v-for="(item, index) in demos"
         :key="index"
         :title="item.title"
-        :create-curve="item.create"
+        :create="item.create"
       />
     </div>
     <!-- 知识总结 -->
