@@ -18,7 +18,7 @@ const props = withDefaults(
     cameraLookAt: () => [0, 0, 0],
     showAxesHelper: true,
     showGridHelper: true,
-    fov: 45
+    fov: 65
   }
 );
 

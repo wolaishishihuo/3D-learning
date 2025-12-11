@@ -61,8 +61,8 @@ const demos = [
       createSceneObjects(scene);
 
       // 创建点光源
-      const light = new THREE.PointLight(0xff0000, 1, 500);
-      light.position.set(0, 200, 0);
+      const light = new THREE.PointLight(0xffffff, 1000000);
+      light.position.set(400, 500, 300);
       scene.add(light);
 
       // 创建点光源辅助器
@@ -78,7 +78,7 @@ const demos = [
       createSceneObjects(scene);
 
       // 创建环境光（配合一个微弱的平行光以便观察）
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+      const ambientLight = new THREE.AmbientLight(0xffffff);
       scene.add(ambientLight);
 
       // 添加一个微弱的平行光以便观察物体形状
@@ -95,11 +95,10 @@ const demos = [
       createSceneObjects(scene);
 
       // 创建聚光灯
-      const light = new THREE.SpotLight(0x00ff00, 1);
-      light.position.set(0, 400, 0);
+      const light = new THREE.SpotLight(0xffffff, 1000000);
+      light.position.set(400, 500, 300);
       light.angle = Math.PI / 6;
-      light.penumbra = 0.1;
-      light.target.position.set(0, 0, 0);
+      light.distance = 1000;
       scene.add(light);
       scene.add(light.target);
 
